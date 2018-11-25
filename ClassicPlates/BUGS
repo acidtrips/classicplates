@@ -1,0 +1,2 @@
+* Sometimes when two NPC's are in combat it will flag one or both units as if they took damage
+  and update their name color accordingly.

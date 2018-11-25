@@ -1,0 +1,4 @@
+* better way of handling combat actions and highlighting other then using OnUpdate like I do
+* update unit name color better
+* rewrite healthbar and castbar as xml templates
+* handle options better, I should not be accessing ClassicPlatesDB directly in update functions

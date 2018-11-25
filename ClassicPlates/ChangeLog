@@ -1,0 +1,51 @@
+Version 1.0.0
+
+  * Hide blizzard nameplates and display our own frame
+  * Added health bar
+  * Added nameplate textures (border, elite icon, high level icon)
+  * Added first run setup of cvars to change
+  * Added simple castbar using CastingBarFrameTemplate
+
+Version 1.0.5
+
+  * Fixed frame level issue (overlapping frames work properly now)
+  * Removed need to use OnUpdate for each frame to update all frame elements, uses events when/where we can
+  * Removed call NamePlateDriverFrame:UpdateNamePlateOptions() (caused taint anyway)
+  * Improved cast bar creation code and replaced it's border and bordershield textures
+  * Added threat event handling
+  * Rewrote unit selection code
+  * Added raid target icons
+  * Removed Flash and Spark textures from the cast bar
+  * Added background shadow texture for the cast bar spell text
+  * Changed friendly player health bars to be colored blue instead of by class color
+  * Changed castbar anchor to differ between border shield and plain border being shown
+  * Changed castbar frame level to match the health bar
+  * Added aggro warnings
+
+Version 1.0.19
+
+  * Added support for CUSTOM_CLASS_COLORS (by request, seemed harmless)
+  * Changed to use UnitEffectiveLevel() instead of UnitLevel()
+  * Changed unit levels to be colored with HighlightColors instead
+  * Changed alpha value used in the unit selection code to 0.49 (down from 0.55)
+  * Added highlighting
+  * Fixed friendly units not having their healthbar color change to their class color when dueling
+  * Changed to use GetUnitName() instead of UnitName()
+  * Rewrote how the castbar is anchored
+  * Added basic options, these can be accessed through the default interface options "Names" under the subsection "ClassicPlates"
+  * Rewrote Update_HealthColor() to better handle options
+  * Added GetUnitLevelColor() to replace GetCreatureDifficultyColor() returns unit level colors
+  * Added options to configure the castbar
+  * Added health bar coloring for tapped units
+  * Removed original castbar code, Now using a fork of Blizzard's castbar code for consistency purposes (no official release possible now)
+  * Added combat status
+  * Changed castbar text alignment, set a fixed width, and enabled word wrapping
+  * Adjusted castbar spell text background positioning abit
+  * Cleaned up alot of my global namespace pollution (castbar stuff remains, but it's getting there)
+
+Version 1.0.37
+
+  * Updated for BFA
+  * Changed castbar to hide for player units on interrupted/failed/completed casts rather then fade out
+  * Some code cleanup, and removed friendly player class coloring support (<= WoD didnt support this natively)
+  * Fixed tapped units being able to be highlighted (should combat status be able to effect this aswell?)

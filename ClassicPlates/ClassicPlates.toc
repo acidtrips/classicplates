@@ -1,0 +1,8 @@
+## Interface: 80000
+## Title: ClassicPlates
+## Author: Acidtrips @ Mal'Ganis-US
+## SavedVariablesPerCharacter: ClassicPlatesDB
+## Version: 1.0.37
+## Notes: Lightweight addon that replicates the old school nameplates.
+
+core\addon.xml

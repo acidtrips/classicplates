@@ -1,0 +1,30 @@
+<!--
+
+  addon.xml
+
+  Contains base constructor, event registers, and script includes.
+
+-->
+<Ui xmlns="http://www.blizzard.com/wow/ui/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/
+..\FrameXML\UI.xsd">
+  <Frame name="ClassicPlates" hidden="true">
+    <Scripts>
+      <OnLoad>
+        self:SetScript("OnEvent", function(_self, event, ...) self[event](_self, ...) end)
+        self:RegisterEvent("ADDON_LOADED")
+        self:RegisterEvent("PLAYER_LOGIN")
+        self:RegisterEvent("NAME_PLATE_CREATED")
+        self:RegisterEvent("NAME_PLATE_UNIT_ADDED")
+        self:RegisterEvent("NAME_PLATE_UNIT_REMOVED")
+        self.NamePlate = {}
+      </OnLoad>
+    </Scripts>
+  </Frame>
+  <Script file="combat.lua"/>
+  <Script file="castbar.lua"/>
+  <Script file="update.lua"/>
+  <Script file="create.lua"/>
+  <Script file="frames.lua"/>
+  <Script file="options.lua"/>
+  <Script file="addon.lua"/>
+</Ui>
