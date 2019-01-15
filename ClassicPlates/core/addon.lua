@@ -6,8 +6,27 @@
 
 --]]
 local addonName = ...
-local GetNamePlateForUnit, UnitIsUnit, SetCVar, tContains =
-       C_NamePlate.GetNamePlateForUnit, UnitIsUnit, SetCVar, tContains
+local SendSystemMessage, GetNamePlateForUnit, UnitIsUnit, SetCVar, GetCVar, tContains, pairs, tonumber =
+      SendSystemMessage, C_NamePlate.GetNamePlateForUnit, UnitIsUnit, SetCVar, GetCVar, tContains, pairs, tonumber
+
+
+function ClassicPlates:CVarUpdate()
+  local cvars = {
+    ["nameplateOtherTopInset"] = -1, ["nameplateOtherBottomInset"] = -1,
+    ["nameplateLargeTopInset"] = -1, ["nameplateLargeBottomInset"] = -1,
+    ["nameplateMaxScale"] = 1.0, ["nameplateMinScale"] = 1.0,
+    ["nameplateLargerScale"] = 1.0, ["nameplateMotionSpeed"] = 0.08,
+    ["nameplateShowAll"] = 1, ["nameplateShowFriendlyNPCs"] = 1,
+    ["nameplateMinAlpha"] = 1.0, ["nameplateOccludedAlphaMult"] = 1.0,
+    ["nameplateMaxDistance"] = 40,
+  }
+  for cvar, value in pairs(cvars) do
+    local curValue = tonumber(GetCVar(cvar))
+    if ( curValue ~= value ) then
+      SetCVar(cvar, value)
+    end
+  end
+end
 
 
 function ClassicPlates:AddOnCheck(name)
@@ -36,19 +55,7 @@ end
 
 function ClassicPlates:PLAYER_LOGIN()
   if ( ClassicPlatesDB.setupCVars ) then
-    SetCVar("nameplateMaxDistance", 40)
-    SetCVar("nameplateOtherTopInset", -1)
-    SetCVar("nameplateOtherBottomInset", -1)
-    SetCVar("nameplateLargeTopInset", -1)
-    SetCVar("nameplateLargeBottomInset", -1)
-    SetCVar("nameplateMaxScale", 1.0)
-    SetCVar("nameplateMinScale", 1.0)
-    SetCVar("nameplateLargerScale", 1.0)
-    SetCVar("nameplateMotionSpeed", 0.08)
-    SetCVar("nameplateShowAll", 1)
-    SetCVar("nameplateShowFriendlyNPCs", 1)
-    SetCVar("nameplateMinAlpha", 1.0)
-    SetCVar("nameplateOccludedAlphaMult", 1.0)
+    self:CVarUpdate()
     ClassicPlatesDB.setupCVars = false
   end
   self:SetupOptionPanel(addonName)
