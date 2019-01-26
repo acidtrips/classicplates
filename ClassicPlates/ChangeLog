@@ -51,3 +51,4 @@ Version 1.0.37
   * Some code cleanup, and removed friendly player class coloring support (<= WoD didnt support this natively)
   * Fixed tapped units being able to be highlighted
   * Improved how cvars are updated
+  * Updated option checkbutton font color to use blizzard consts
