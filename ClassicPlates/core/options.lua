@@ -10,9 +10,10 @@ local ClassicPlates = ClassicPlates
 
 local InterfaceOptionsNamesPanel = InterfaceOptionsNamesPanel
 local _G, CreateFrame = _G, CreateFrame
+local GRAY_FONT_COLOR, HIGHLIGHT_FONT_COLOR = GRAY_FONT_COLOR, HIGHLIGHT_FONT_COLOR
 
 
-local function CreateCheckButton(panel, label, name, tooltipText, point, x, y, useSmallFont, initFunc, onClickedFunc)
+local function CreateCheckButton(panel, label, name, tooltipText, point, x, y, useSmallFont, initFunc, onClickFunc)
   local button = CreateFrame("CheckButton", "InterfaceOptions"..name.."Button", panel, "InterfaceOptionsCheckButtonTemplate")
   button.label = _G[button:GetName().."Text"]
   button.label:SetText(label)
@@ -21,7 +22,7 @@ local function CreateCheckButton(panel, label, name, tooltipText, point, x, y, u
   end
   button.tooltipText = tooltipText
   button:SetPoint(point, x, y)
-  button:HookScript("OnClick", onClickedFunc)
+  button:HookScript("OnClick", onClickFunc)
   if ( initFunc ) then
     initFunc(button)
   end
@@ -61,14 +62,14 @@ function ClassicPlates:SetupOptionPanel(name)
       local value = self:GetChecked()
       if ( button.a and button.b ) then
         if ( not value ) then
-          button.a.label:SetTextColor(0.50, 0.50, 0.50)
+          button.a.label:SetTextColor(GRAY_FONT_COLOR.r, GRAY_FONT_COLOR.g, GRAY_FONT_COLOR.b)
           button.a:Disable()
-          button.b.label:SetTextColor(0.50, 0.50, 0.50)
+          button.b.label:SetTextColor(GRAY_FONT_COLOR.r, GRAY_FONT_COLOR.g, GRAY_FONT_COLOR.b)
           button.b:Disable()
         elseif ( value and not ClassicPlatesDB.showCastBars ) then
-          button.a.label:SetTextColor(1.0, 1.0, 1.0)
+          button.a.label:SetTextColor(HIGHLIGHT_FONT_COLOR.r, HIGHLIGHT_FONT_COLOR.g, HIGHLIGHT_FONT_COLOR.b)
           button.a:Enable()
-          button.b.label:SetTextColor(1.0, 1.0, 1.0)
+          button.b.label:SetTextColor(HIGHLIGHT_FONT_COLOR.r, HIGHLIGHT_FONT_COLOR.g, HIGHLIGHT_FONT_COLOR.b)
           button.b:Enable()
         end
       end
@@ -82,7 +83,7 @@ function ClassicPlates:SetupOptionPanel(name)
     function(self)
       local button = _G["InterfaceOptionsShowCastBarsButton"]
       if ( button and not button:GetChecked() ) then
-        self.label:SetTextColor(0.50, 0.50, 0.50)
+        self.label:SetTextColor(GRAY_FONT_COLOR.r, GRAY_FONT_COLOR.g, GRAY_FONT_COLOR.b)
         self:Disable()
       end
       self:SetChecked(ClassicPlatesDB.showCastBarsTargetOnly)
@@ -98,7 +99,7 @@ function ClassicPlates:SetupOptionPanel(name)
     function(self)
       local button = _G["InterfaceOptionsShowCastBarsButton"]
       if ( button and not button:GetChecked() ) then
-        self.label:SetTextColor(0.50, 0.50, 0.50)
+        self.label:SetTextColor(GRAY_FONT_COLOR.r, GRAY_FONT_COLOR.g, GRAY_FONT_COLOR.b)
         self:Disable()
       end
       self:SetChecked(ClassicPlatesDB.showCastBarsSpellName)
