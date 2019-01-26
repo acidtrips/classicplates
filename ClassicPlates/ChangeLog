@@ -24,6 +24,7 @@ Version 1.0.5
 
 Version 1.0.19
 
+  * Changed aggro warnings to only appear on non-player units
   * Added support for CUSTOM_CLASS_COLORS (by request, seemed harmless)
   * Changed to use UnitEffectiveLevel() instead of UnitLevel()
   * Changed unit levels to be colored with HighlightColors instead
@@ -37,7 +38,7 @@ Version 1.0.19
   * Added GetUnitLevelColor() to replace GetCreatureDifficultyColor() returns unit level colors
   * Added options to configure the castbar
   * Added health bar coloring for tapped units
-  * Removed original castbar code, Now using a fork of Blizzard's castbar code for consistency purposes (no official release possible now)
+  * Removed original castbar code, Now using a fork of Blizzard's castbar code for consistency purposes
   * Added combat status
   * Changed castbar text alignment, set a fixed width, and enabled word wrapping
   * Adjusted castbar spell text background positioning abit
@@ -48,4 +49,5 @@ Version 1.0.37
   * Updated for BFA
   * Changed castbar to hide for player units on interrupted/failed/completed casts rather then fade out
   * Some code cleanup, and removed friendly player class coloring support (<= WoD didnt support this natively)
-  * Fixed tapped units being able to be highlighted (should combat status be able to effect this aswell?)
+  * Fixed tapped units being able to be highlighted
+  * Improved how cvars are updated
