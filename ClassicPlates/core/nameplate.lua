@@ -1,6 +1,6 @@
 --[[
 
-    frames.lua
+    nameplate.lua
 
     Contains functions that drive the nameplate frames.
 
