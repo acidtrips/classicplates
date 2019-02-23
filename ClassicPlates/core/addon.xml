@@ -24,7 +24,7 @@
   <Script file="castbar.lua"/>
   <Script file="update.lua"/>
   <Script file="create.lua"/>
-  <Script file="frames.lua"/>
+  <Script file="nameplate.lua"/>
   <Script file="options.lua"/>
   <Script file="addon.lua"/>
 </Ui>
