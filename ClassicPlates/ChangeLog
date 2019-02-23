@@ -52,3 +52,5 @@ Version 1.0.37
   * Fixed tapped units being able to be highlighted
   * Improved how cvars are updated
   * Updated option checkbutton font color to use blizzard consts
+  * Rewrote options code
+  * Renamed frames.lua to nameplate.lua to better reflect it's purpose
