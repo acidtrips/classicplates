@@ -7,12 +7,12 @@
 --]]
 local NamePlate = ClassicPlates.NamePlate
 
-local UnitIsUnit, UnitEffectiveLevel, UnitExists, UnitClass, UnitHealth, UnitHealthMax, GetUnitName, UnitIsFriend, UnitIsEnemy,
-      UnitClassification, UnitCanAttack, UnitPlayerControlled, UnitIsTapDenied, GetQuestGreenRange, UnitThreatSituation,
-      UnitReaction, GetRaidTargetIndex, SetRaidTargetIconTexture, GetNamePlates, CastBar_UpdateIsShown, ipairs =
-      UnitIsUnit, UnitEffectiveLevel, UnitExists, UnitClass, UnitHealth, UnitHealthMax, GetUnitName, UnitIsFriend, UnitIsEnemy,
-      UnitClassification, UnitCanAttack, UnitPlayerControlled, UnitIsTapDenied, GetQuestGreenRange, UnitThreatSituation,
-      UnitReaction, GetRaidTargetIndex, SetRaidTargetIconTexture, C_NamePlate.GetNamePlates, CastBar_UpdateIsShown, ipairs
+local UnitIsUnit, UnitEffectiveLevel, UnitExists, UnitClass, UnitHealth, UnitHealthMax, GetUnitName, UnitClassification,
+      UnitCanAttack, UnitPlayerControlled, UnitIsTapDenied, GetQuestGreenRange, UnitThreatSituation, UnitReaction,
+      GetRaidTargetIndex, SetRaidTargetIconTexture, GetNamePlates, CastBar_UpdateIsShown, ipairs =
+      UnitIsUnit, UnitEffectiveLevel, UnitExists, UnitClass, UnitHealth, UnitHealthMax, GetUnitName, UnitClassification,
+      UnitCanAttack, UnitPlayerControlled, UnitIsTapDenied, GetQuestGreenRange, UnitThreatSituation, UnitReaction,
+      GetRaidTargetIndex, SetRaidTargetIconTexture, C_NamePlate.GetNamePlates, CastBar_UpdateIsShown, ipairs
 
 local CLASS_COLORS = CUSTOM_CLASS_COLORS and CUSTOM_CLASS_COLORS or RAID_CLASS_COLORS
 
