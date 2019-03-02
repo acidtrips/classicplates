@@ -66,7 +66,7 @@ function ClassicPlates:OnNamePlateCreated(frame)
 end
 
 
-function ClassicPlates:OnUnitRemoved(frame, unit)
+function ClassicPlates:OnUnitRemoved(frame)
   frame.unit = nil
   frame.isMouseOver = false
   frame.inCombat = false
