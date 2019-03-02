@@ -5,7 +5,7 @@
     Contains functions that add options to blizzard's interface options panel
 
 --]]
-local ClassicPlates, _G, CreateFrame = ClassicPlates, _G, CreateFrame
+local ClassicPlates, _G, CreateFrame, InterfaceOptionsNamesPanel = ClassicPlates, _G, CreateFrame, InterfaceOptionsNamesPanel
 
 
 local ClassicPlatesDefaultOptions = {
@@ -18,7 +18,7 @@ local ClassicPlatesDefaultOptions = {
 }
 
 
-local OptionCheckButtons, OptionCheckButtonsControls = {}, {}
+local OptionCheckButtons = {}
 OptionCheckButtons["ShowAggroWarning"] = {var = "showAggroWarnings", dependsOn = nil, text = "Display Aggro Warnings", toolTipText = "Turn this on to enable aggro warnings. Displays a red glow around unit nameplates that you have aggro with.", point = "BOTTOMLEFT", x = 16, y = 95, smallFont = nil, updateFunc = "Update_Threat"}
 OptionCheckButtons["ShowCastBars"] = {var = "showCastBars", text = "Show CastBars", dependsOn = {"CurrentTargetOnly", "ShowSpellNames"}, toolTipText = "Turn this on to show cast bars on unit nameplates.", point = "BOTTOMLEFT", x = 16, y = 65, smallFont = nil, updateFunc = "Update_CastBar"}
 OptionCheckButtons["CurrentTargetOnly"] = {var = "showCastBarsTargetOnly", dependsOn = nil, text = "Current Target Only", toolTipText = "Turn this on to show cast bars for your current target only.", point = "BOTTOMLEFT", x = 26, y = 44, smallFont = nil, updateFunc = "Update_CastBar"}
@@ -44,8 +44,12 @@ local function OptionCheckButton_Update(self)
   end
 end
 
+local function OptionCheckButton_OnClick(self)
+  OptionCheckButton_Update(self)
+end
 
-local function OptionCheckButton_OnClick(self, ...)
+
+local function OptionCheckButton_OnShow(self)
   OptionCheckButton_Update(self)
 end
 
@@ -63,7 +67,7 @@ local function OptionCheckButton_Create(text, name, var, tooltipText, point, x, 
   button:SetPoint(point, x, y)
   button:SetChecked(ClassicPlatesDB[var])
   button:SetScript("OnClick", OptionCheckButton_OnClick)
-  table.insert(OptionCheckButtonsControls, button)
+  button:SetScript("OnShow", OptionCheckButton_OnShow)
 end
 
 
@@ -78,8 +82,5 @@ function ClassicPlates:SetupOptionPanel(name)
   title:SetText(name)
   for buttonName, button in pairs(OptionCheckButtons) do
     OptionCheckButton_Create(button.text, buttonName, button.var, button.toolTipText, button.point, button.x, button.y, button.smallFont, button.dependsOn, button.updateFunc)
-  end
-  for _, button in next, OptionCheckButtonsControls do
-    OptionCheckButton_Update(button)
   end
 end
