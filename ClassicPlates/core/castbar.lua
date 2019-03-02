@@ -117,7 +117,7 @@ local function CastBar_OnEvent(self, event, ...)
     end
   elseif ( event == "UNIT_SPELLCAST_DELAYED" ) then
     if ( self:IsShown() ) then
-      local name, text, texture, startTime, endTime, isTradeSkill, castID, notInterruptible = UnitCastingInfo(unit)
+      local name, _, _, startTime, endTime, isTradeSkill = UnitCastingInfo(unit)
       if ( not name or isTradeSkill ) then
         self:Hide()
         return
@@ -133,7 +133,7 @@ local function CastBar_OnEvent(self, event, ...)
     end
   elseif ( event == "UNIT_SPELLCAST_CHANNEL_UPDATE" ) then
     if ( self:IsShown() ) then
-      local name, text, texture, startTime, endTime, isTradeSkill = UnitChannelInfo(unit)
+      local name, _, _, startTime, endTime, isTradeSkill = UnitChannelInfo(unit)
       if ( not name or isTradeSkill ) then
         self:Hide()
         return
@@ -264,3 +264,10 @@ function CastBar_Create(self)
   self.CastBar:SetScript("OnShow", CastBar_OnShow)
   self.CastBar:SetScript("OnUpdate", CastBar_OnUpdate)
 end
+
+
+--function ClassicPlates:SetCastBarEventHandlers(castBar)
+--  castBar:SetScript("OnEvent", CastBar_OnEvent)
+--  castBar:SetScript("OnShow", CastBar_OnShow)
+--  castBar:SetScript("OnUpdate", CastBar_OnUpdate)
+--end
