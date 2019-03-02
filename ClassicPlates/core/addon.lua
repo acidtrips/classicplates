@@ -77,6 +77,6 @@ end
 
 function ClassicPlates:NAME_PLATE_UNIT_REMOVED(unit)
   local frame = GetNamePlateForUnit(unit)
-  self:OnUnitRemoved(frame.NamePlate, unit)
+  self:OnUnitRemoved(frame.NamePlate)
 end
 
