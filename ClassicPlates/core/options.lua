@@ -5,7 +5,8 @@
     Contains functions that add options to blizzard's interface options panel
 
 --]]
-local ClassicPlates, _G, CreateFrame, InterfaceOptionsNamesPanel = ClassicPlates, _G, CreateFrame, InterfaceOptionsNamesPanel
+local ClassicPlates, _G, CreateFrame, InterfaceOptionsNamesPanel, GRAY_FONT_COLOR, HIGHLIGHT_FONT_COLOR =
+      ClassicPlates, _G, CreateFrame, InterfaceOptionsNamesPanel, GRAY_FONT_COLOR, HIGHLIGHT_FONT_COLOR
 
 
 local ClassicPlatesDefaultOptions = {
@@ -26,13 +27,24 @@ OptionCheckButtons["ShowSpellNames"] = {var = "showCastBarsSpellName", dependsOn
 OptionCheckButtons["ShowClassColors"] = {var = "showClassColors", dependsOn = nil, text = "Show Class Colors", toolTipText = "Turn this on to show class colors on enemy player healthbars.", point = "BOTTOMRIGHT", x = -295, y = 95, smallFont = nil, updateFunc = "Update_HealthColor"}
 
 
+local function OptionCheckButton_SetEnabledState(button, enabled)
+  if ( enabled ) then
+    button.Text:SetTextColor(HIGHLIGHT_FONT_COLOR.r, HIGHLIGHT_FONT_COLOR.g, HIGHLIGHT_FONT_COLOR.b)
+    button:Enable()    
+  else
+    button.Text:SetTextColor(GRAY_FONT_COLOR.r, GRAY_FONT_COLOR.g, GRAY_FONT_COLOR.b)
+    button:Disable()    
+  end 
+end
+
+
 local function OptionCheckButton_Update(self)
   local checkedValue = self:GetChecked()
   if ( self.dependsOn ) then
     for _, name in pairs(self.dependsOn) do
       local button = _G["InterfaceOptions"..name.."Button"]
       if ( button ) then
-        button[checkedValue and "Enable" or "Disable"](button)
+        OptionCheckButton_SetEnabledState(button, checkedValue)
       end
     end
   end
@@ -43,6 +55,7 @@ local function OptionCheckButton_Update(self)
     ClassicPlates:CallUpdateFunc(self.updateFunc)
   end
 end
+
 
 local function OptionCheckButton_OnClick(self)
   OptionCheckButton_Update(self)
