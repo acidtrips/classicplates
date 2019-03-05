@@ -30,11 +30,11 @@ OptionCheckButtons["ShowClassColors"] = {var = "showClassColors", dependsOn = ni
 local function OptionCheckButton_SetEnabledState(button, enabled)
   if ( enabled ) then
     button.Text:SetTextColor(HIGHLIGHT_FONT_COLOR.r, HIGHLIGHT_FONT_COLOR.g, HIGHLIGHT_FONT_COLOR.b)
-    button:Enable()    
+    button:Enable()
   else
     button.Text:SetTextColor(GRAY_FONT_COLOR.r, GRAY_FONT_COLOR.g, GRAY_FONT_COLOR.b)
-    button:Disable()    
-  end 
+    button:Disable()
+  end
 end
 
 
