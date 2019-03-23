@@ -58,6 +58,8 @@ function ClassicPlates:NewNamePlate(baseFrame)
   frame:SetPoint("CENTER", baseFrame, "BOTTOM", 0, 30)
   frame:SetFrameStrata("BACKGROUND")
   frame:SetSize(140, 39)
+  frame:SetIgnoreParentScale(true)
+  frame:SetIgnoreParentAlpha(true)
   frame:Hide()
   frame.unit = nil
   frame.elapsed = 0
