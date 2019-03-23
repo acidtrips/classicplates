@@ -42,15 +42,18 @@ Version 1.0.19
   * Added combat status
   * Changed castbar text alignment, set a fixed width, and enabled word wrapping
   * Adjusted castbar spell text background positioning abit
-  * Cleaned up alot of my global namespace pollution (castbar stuff remains, but it's getting there)
+  * Cleaned up alot of global namespace pollution (castbar stuff remains, but it's getting there)
 
 Version 1.0.37
 
   * Updated for BFA
   * Changed castbar to hide for player units on interrupted/failed/completed casts rather then fade out
-  * Some code cleanup, and removed friendly player class coloring support (<= WoD didnt support this natively)
+  * Removed friendly player class coloring support (<= WoD didnt support this natively)
   * Fixed tapped units being able to be highlighted
   * Improved how cvars are updated
   * Updated option checkbutton font color to use blizzard consts
-  * Rewrote options code
-  * Renamed frames.lua to nameplate.lua to better reflect it's purpose
+  * Rewrote option code
+  * Cleaned up several unused variables and unused function arguments
+  * Improved logic used to determine if a unit is allowed combat actions
+  * Improved unit name coloring
+  * Changed nameplate frames to ignore parent scale and alpha
