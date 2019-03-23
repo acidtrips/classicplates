@@ -5,26 +5,13 @@
     Contains functions that update nameplate elements.
 
 --]]
-local NamePlate = ClassicPlates.NamePlate
-
-local UnitIsUnit, UnitEffectiveLevel, UnitExists, UnitClass, UnitHealth, UnitHealthMax, GetUnitName, UnitClassification,
-      UnitCanAttack, UnitPlayerControlled, UnitIsTapDenied, GetQuestGreenRange, UnitThreatSituation, UnitReaction,
+local UnitIsUnit, UnitEffectiveLevel, UnitExists, UnitClass, UnitHealth, UnitHealthMax, GetUnitName,
+      UnitClassification, UnitCanAttack, UnitIsTapDenied, GetQuestGreenRange, UnitThreatSituation, UnitReaction,
       GetRaidTargetIndex, SetRaidTargetIconTexture, GetNamePlates, CastBar_UpdateIsShown, ipairs =
-      UnitIsUnit, UnitEffectiveLevel, UnitExists, UnitClass, UnitHealth, UnitHealthMax, GetUnitName, UnitClassification,
-      UnitCanAttack, UnitPlayerControlled, UnitIsTapDenied, GetQuestGreenRange, UnitThreatSituation, UnitReaction,
+      UnitIsUnit, UnitEffectiveLevel, UnitExists, UnitClass, UnitHealth, UnitHealthMax, GetUnitName,
+      UnitClassification, UnitCanAttack, UnitIsTapDenied, GetQuestGreenRange, UnitThreatSituation, UnitReaction,
       GetRaidTargetIndex, SetRaidTargetIconTexture, C_NamePlate.GetNamePlates, CastBar_UpdateIsShown, ipairs
-
-local CLASS_COLORS = CUSTOM_CLASS_COLORS and CUSTOM_CLASS_COLORS or RAID_CLASS_COLORS
-
-
-local function UnitIsMousedOver(unit)
-  return (UnitExists("mouseover") and UnitIsUnit("mouseover", unit) and not UnitIsUnit("target", unit))
-end
-
-
-local function UnitTapIsDenied(unit)
-  return (not UnitPlayerControlled(unit) and UnitIsTapDenied(unit))
-end
+local NamePlate = ClassicPlates.NamePlate
 
 
 local function GetUnitLevelColor(level)
@@ -52,26 +39,6 @@ local function GetUnitColor(unit)
 end
 
 
-function NamePlate:Highlight_Update()
-  if ( self.isMouseOver ) then
-    if ( not UnitIsMousedOver(self.unit) ) then
-      self.NameText:SetTextColor(self.NameText.r, self.NameText.g, self.NameText.b)
-      self.isMouseOver = false
-    end
-  end
-end
-
-
-function NamePlate:Update_Highlight()
-  if ( UnitIsMousedOver(self.unit) and not UnitTapIsDenied(self.unit) and not self.inCombat ) then
-    self.NameText:SetTextColor(1.0, 1.0, 0.0)
-    self.isMouseOver = true
-  elseif ( not self.inCombat ) then
-    self.NameText:SetTextColor(self.NameText.r, self.NameText.g, self.NameText.b)
-  end
-end
-
-
 function NamePlate:Update_Selection()
   local alpha = 1.0
   if ( UnitExists("target") and not UnitIsUnit(self.unit, "target") ) then
@@ -95,7 +62,7 @@ end
 
 function NamePlate:Update_HealthColor()
   local _, class = UnitClass(self.unit)
-  local classColor = CLASS_COLORS[class]
+  local classColor = RAID_CLASS_COLORS[class]
   local r, g, b = 1.0, 0.0, 0.0
   if ( UnitIsPlayer(self.unit) ) then
     if ( not UnitCanAttack("player", self.unit) ) then
@@ -104,7 +71,7 @@ function NamePlate:Update_HealthColor()
       r, g, b = classColor.r, classColor.g, classColor.b
     end
   else
-    if ( UnitTapIsDenied(self.unit) ) then
+    if ( UnitIsTapDenied(self.unit) ) then
       r, g, b = 0.5, 0.5, 0.5
     else
       r, g, b = GetUnitColor(self.unit)
@@ -127,15 +94,22 @@ end
 
 function NamePlate:Update_Name()
   local name = GetUnitName(self.unit, false)
-  local r, g, b = 1.0, 1.0, 1.0
-  if ( self.inCombat ) then
-    r, g, b = 1.0, 0.0, 0.0
-  elseif ( UnitTapIsDenied(self.unit) ) then
-    r, g, b = 0.5, 0.5, 0.5
-  end
   self.NameText:SetText(name)
+end
+
+
+function NamePlate:Update_NameColor()
+  local r, g, b = 1.0, 1.0, 1.0
+  if ( UnitIsTapDenied(self.unit) ) then
+    r, g, b = 0.5, 0.5, 0.5
+  else
+    if ( self.inCombat ) then
+      r, g, b = 1.0, 0.0, 0.0
+    elseif ( self.isMouseOver ) then
+      r, g, b = 1.0, 1.0, 0.0
+    end
+  end
   self.NameText:SetTextColor(r, g, b)
-  self.NameText.r, self.NameText.g, self.NameText.b = r, g, b
 end
 
 
@@ -183,18 +157,6 @@ function NamePlate:Update_CastBar()
 end
 
 
-function NamePlate:Update_CombatColor()
-  local r, g, b = 1.0, 1.0, 1.0
-  if ( self.inCombat ) then
-    r, g, b = 1.0, 0.0, 0.0
-  elseif ( UnitTapIsDenied(self.unit) ) then
-    r, g, b = 0.5, 0.5, 0.5
-  end
-  self.NameText:SetTextColor(r, g, b)
-  self.NameText.r, self.NameText.g, self.NameText.b = r, g, b
-end
-
-
 function NamePlate:Update_All()
   if ( UnitExists(self.unit) ) then
     self:Update_Highlight()
@@ -204,7 +166,7 @@ function NamePlate:Update_All()
     self:Update_Selection()
     self:Update_Classification()
     self:Update_Name()
-    self:Update_CombatColor()
+    self:Update_NameColor()
     self:Update_Level()
     self:Update_MaxHealth()
     self:Update_Health()
@@ -221,20 +183,20 @@ end
 
 
 function ClassicPlates:SetUpdateFuncs(frame)
-  frame.Update_Highlight = NamePlate.Update_Highlight
   frame.Update_CastBar = NamePlate.Update_CastBar
   frame.Update_Threat = NamePlate.Update_Threat
   frame.Update_RaidIcon = NamePlate.Update_RaidIcon
   frame.Update_Selection = NamePlate.Update_Selection
   frame.Update_Classification = NamePlate.Update_Classification
   frame.Update_Name = NamePlate.Update_Name
-  frame.Update_CombatColor = NamePlate.Update_CombatColor
+  frame.Update_NameColor = NamePlate.Update_NameColor
   frame.Update_Level = NamePlate.Update_Level
   frame.Update_MaxHealth = NamePlate.Update_MaxHealth
   frame.Update_Health = NamePlate.Update_Health
   frame.Update_HealthColor = NamePlate.Update_HealthColor
   frame.Update_All = NamePlate.Update_All
-  frame.Update_CombatAction = NamePlate.Update_CombatAction
-  frame.Highlight_Update = NamePlate.Highlight_Update
-  frame.Combat_Update = NamePlate.Combat_Update
+  frame.Update_Highlight = NamePlate.Update_Highlight
+  frame.Update_Combat = NamePlate.Update_Combat
+  frame.Highlight_OnUpdate = NamePlate.Highlight_OnUpdate
+  frame.Combat_OnUpdate = NamePlate.Combat_OnUpdate
 end
