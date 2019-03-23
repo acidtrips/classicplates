@@ -17,7 +17,7 @@ local function NamePlate_OnEvent(self, event, ...)
     self:Update_Level()
   elseif ( event == "UNIT_NAME_UPDATE" ) then
     self:Update_Name()
-    self:Update_HealthColor()
+    self:Update_NameColor()
   elseif ( event == "UNIT_THREAT_LIST_UPDATE" or event == "UNIT_THREAT_SITUATION_UPDATE" ) then
     self:Update_Threat()
   elseif ( event == "RAID_TARGET_UPDATE" ) then
@@ -34,7 +34,7 @@ local function NamePlate_OnEvent(self, event, ...)
     self:Update_Highlight()
   elseif ( event == "UNIT_COMBAT" ) then
     local _, action, _, amount  = ...
-    self:Update_CombatAction(action, amount)
+    self:Update_Combat(action, amount)
   elseif ( event == "UNIT_FACTION" ) then
     self:Update_HealthColor()
   end
@@ -44,8 +44,8 @@ end
 local function NamePlate_OnUpdate(self, elapsed)
   self.elapsed = (self.elapsed + elapsed)
   if ( self.elapsed > 0.22 ) then
-    self:Highlight_Update()
-    self:Combat_Update()
+    self:Combat_OnUpdate()
+    self:Highlight_OnUpdate()
     self.elapsed = 0
   end
 end
