@@ -2,7 +2,7 @@
 
   addon.xml
 
-  Contains base constructor, event registers, and script includes.
+  Contains bootstrap code
 
 -->
 <Ui xmlns="http://www.blizzard.com/wow/ui/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/
@@ -20,6 +20,7 @@
       </OnLoad>
     </Scripts>
   </Frame>
+  <Script file="highlight.lua"/>
   <Script file="combat.lua"/>
   <Script file="castbar.lua"/>
   <Script file="update.lua"/>
