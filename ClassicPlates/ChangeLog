@@ -57,3 +57,4 @@ Version 1.0.37
   * Improved logic used to determine if a unit is allowed combat actions
   * Improved unit name coloring
   * Changed nameplate frames to ignore parent scale and alpha
+  * Added check against UnitTreatAsPlayerForDisplay when updating health bar color
