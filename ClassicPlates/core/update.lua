@@ -5,10 +5,10 @@
     Contains functions that update nameplate elements.
 
 --]]
-local UnitIsUnit, UnitEffectiveLevel, UnitExists, UnitClass, UnitHealth, UnitHealthMax, GetUnitName,
+local UnitIsUnit, UnitEffectiveLevel, UnitExists, UnitClass, UnitHealth, UnitHealthMax, GetUnitName, UnitTreatAsPlayerForDisplay,
       UnitClassification, UnitCanAttack, UnitIsTapDenied, GetQuestGreenRange, UnitThreatSituation, UnitReaction,
       GetRaidTargetIndex, SetRaidTargetIconTexture, GetNamePlates, CastBar_UpdateIsShown, ipairs =
-      UnitIsUnit, UnitEffectiveLevel, UnitExists, UnitClass, UnitHealth, UnitHealthMax, GetUnitName,
+      UnitIsUnit, UnitEffectiveLevel, UnitExists, UnitClass, UnitHealth, UnitHealthMax, GetUnitName, UnitTreatAsPlayerForDisplay,
       UnitClassification, UnitCanAttack, UnitIsTapDenied, GetQuestGreenRange, UnitThreatSituation, UnitReaction,
       GetRaidTargetIndex, SetRaidTargetIconTexture, C_NamePlate.GetNamePlates, CastBar_UpdateIsShown, ipairs
 local NamePlate = ClassicPlates.NamePlate
@@ -64,7 +64,7 @@ function NamePlate:Update_HealthColor()
   local _, class = UnitClass(self.unit)
   local classColor = RAID_CLASS_COLORS[class]
   local r, g, b = 1.0, 0.0, 0.0
-  if ( UnitIsPlayer(self.unit) ) then
+  if ( UnitIsPlayer(self.unit) or UnitTreatAsPlayerForDisplay(self.unit) ) then
     if ( not UnitCanAttack("player", self.unit) ) then
       r, g, b = 0.0, 0.0, 1.0
     elseif ( classColor and ClassicPlatesDB.showClassColors ) then
