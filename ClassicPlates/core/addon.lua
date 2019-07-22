@@ -47,7 +47,7 @@ function ClassicPlates:AddOnCheck(name)
     "NamePlates", "NiceNameplates", "Threat Plates",
   }
   if ( tContains(knownAddOns, name) ) then
-    self:UnregisterAllEvents() -- just slip'em the ol' kielbasa
+    self:UnregisterAllEvents()
   end
 end
 
