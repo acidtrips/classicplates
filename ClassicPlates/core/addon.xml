@@ -2,30 +2,146 @@
 
   addon.xml
 
-  Contains bootstrap code
+  Contains bootstrapping and XML template
 
 -->
 <Ui xmlns="http://www.blizzard.com/wow/ui/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/
 ..\FrameXML\UI.xsd">
+  <Frame name="ClassicPlateTemplate" parentkey="NamePlate" mixin="NamePlateMixin" ignoreParentAlpha="true" hidden="true" virtual="true">
+    <Size x="140" y="39"/>
+    <Anchors><Anchor point="CENTER" relativeTo="$parent" relativePoint="BOTTOM" x="0" y="30"/></Anchors>
+    <Frames>
+      <StatusBar parentKey="HealthBar" frameLevel="1">
+        <Size x="105" y="11"/>
+        <Anchors><Anchor point="BOTTOMLEFT" relativePoint="BOTTOMLEFT" x="5" y="4.8"/></Anchors>
+        <BarTexture file="Interface/TargetingFrame/UI-TargetingFrame-BarFill"/>
+        <BarColor r="1.0" g="0.0" b="0.0"/>
+      </StatusBar>
+      <StatusBar parentKey="CastBar" mixin="CastBarMixin" hidden="true">
+        <Size x="115" y="13"/>
+        <Anchors><Anchor point="BOTTOMLEFT" relativeKey="$parent.HealthBar" relativePoint="BOTTOMLEFT" x="17" y="-30"/></Anchors>
+        <BarTexture file="Interface/TargetingFrame/UI-TargetingFrame-BarFill"/>
+        <BarColor r="1.0" g="0.7" b="0.0"/>
+        <Layers>
+          <Layer level="ARTWORK" textureSubLevel="1">
+            <Texture parentKey="CastBarBorder" file="Interface/Tooltips/Nameplate-Border-Castbar">
+              <Size x="140" y="40"/>
+              <Anchors><Anchor point="TOPLEFT" relativePoint="TOPLEFT" x="-21" y="23"/></Anchors>
+            </Texture>
+          </Layer>
+          <Layer level="ARTWORK" textureSubLevel="2">
+            <Texture parentKey="CastBarFrameShield" file="Interface/Tooltips/Nameplate-CastBar-Shield">
+              <Size x="136" y="38"/>
+              <Anchors><Anchor point="TOPLEFT" relativePoint="TOPLEFT" x="-18" y="12"/></Anchors>
+            </Texture>
+          </Layer>
+          <Layer level="ARTWORK" textureSubLevel="3">
+            <Texture parentKey="CastBarTextBG" file="Interface/Common/NameShadow">
+              <Size x="113" y="20"/>
+              <Anchors><Anchor point="TOPLEFT" relativePoint="BOTTOMLEFT" x="0" y="1"/></Anchors>
+            </Texture>
+            <Texture parentKey="CastBarSpellIcon">
+              <Size x="16" y="16"/>
+              <Anchors><Anchor point="RIGHT" relativePoint="LEFT" x="2" y="0"/></Anchors>
+            </Texture>
+          </Layer>
+          <Layer level="OVERLAY">
+            <FontString parentKey="CastBarText" wordwrap="true" justifyH="CENTER" inherits="GameFontWhiteTiny">
+              <Size x="113" y="0"/>
+              <Shadow><Offset><AbsDimension x="1.56" y="-1.56"/></Offset></Shadow>
+              <Anchors><Anchor point="CENTER" relativePoint="BOTTOM" x="0" y="-4"/></Anchors>
+            </FontString>
+          </Layer>
+        </Layers>
+        <Scripts>
+          <OnUpdate method="OnUpdate"/>
+          <OnShow method="OnShow"/>
+          <OnEvent method="OnEvent"/>
+        </Scripts>
+      </StatusBar>
+    </Frames>
+    <Layers>
+      <Layer level="ARTWORK" textureSubLevel="0">
+        <Texture parentKey="EliteIcon" file="Interface/Tooltips/EliteNameplateIcon" hidden="true">
+          <Size x="46" y="33.6"/>
+          <Anchors><Anchor point="CENTER" relativeKey="$parent.Border" relativePoint="BOTTOMRIGHT" x="-12" y="10"/></Anchors>
+          <TexCoords left="0" right="0.578125" top="" bottom="0.84375"/>
+        </Texture>
+        <Texture parentKey="RaidTargetIcon" file="Interface/TargetingFrame/UI-RaidTargetingIcons" hidden="true">
+          <Size x="31" y="31"/>
+          <Anchors><Anchor point="RIGHT" relativePoint="LEFT" x="0" y="0"/></Anchors>
+        </Texture>
+      </Layer>
+      <Layer level="ARTWORK" textureSubLevel="1">
+        <Texture parentKey="Border" file="Interface/Tooltips/Nameplate-Border">
+          <Size x="140.9" y="39"/>
+          <Anchors><Anchor point="TOPLEFT" relativePoint="TOPLEFT" x="0" y="0"/></Anchors>
+          <TexCoords left="0" right="0.53125" top="0" bottom="1"/>
+        </Texture>
+      </Layer>
+      <Layer level="ARTWORK" textureSubLevel="2">
+        <Texture parentKey="HighLevelIcon" file="Interface/TargetingFrame/UI-TargetingFrame-Skull" hidden="true">
+          <Size x="15" y="15"/>
+          <Anchors><Anchor point="CENTER" relativeKey="$parent.Border" relativePoint="BOTTOMRIGHT" x="-16.4" y="11"/></Anchors>
+        </Texture>
+      </Layer>
+      <Layer level="BACKGROUND">
+        <Texture parentKey="AggroWarning" file="Interface/TargetingFrame/UI-TargetingFrame-Flash" hidden="true">
+          <Size x="155" y="43"/>
+          <Anchors><Anchor point="BOTTOMLEFT" relativeKey="$parent.Border" relativePoint="BOTTOMLEFT" x="-8.4" y="-14.4"/></Anchors>
+          <TexCoords left="0.0" right="0.555" top="0.53" bottom="0.6"/>
+          <Color r="1.0" g="0.0" b="0.0" a="1.0"/>
+        </Texture>
+      </Layer>
+      <Layer level="OVERLAY">
+        <FontString parentKey="NameText" inherits="GameFontWhite">
+          <Shadow><Offset><AbsDimension x="1.56" y="-1.56"/></Offset></Shadow>
+          <Anchors><Anchor point="BOTTOM" relativePoint="CENTER" x="0" y="0"/></Anchors>
+        </FontString>
+        <FontString parentKey="LevelText" inherits="GameFontWhite">
+          <Shadow><Offset><AbsDimension x="1.56" y="-1.56"/></Offset></Shadow>
+          <Anchors><Anchor point="CENTER" relativeKey="$parent.Border" relativePoint="BOTTOMRIGHT" x="-16.4" y="11.5"/></Anchors>
+        </FontString>
+      </Layer>
+    </Layers>
+    <Scripts>
+      <!--<OnUpdate method="OnUpdate"/>-->
+      <OnEvent method="OnEvent"/>
+      <OnLoad>
+        local parent = self:GetParent()
+        if ( parent.UnitFrame ) then
+          parent.UnitFrame:HookScript("OnShow", self.OnShow)
+        end
+      </OnLoad>
+    </Scripts>
+    <KeyValues>
+      <KeyValue key="unit" value="nil" type="string"/>
+      <KeyValue key="elapsed" value="0" type="number"/>
+      <KeyValue key="lastCombatAction" value="0" type="number"/>
+      <KeyValue key="isHighlighted" value="false" type="boolean"/>
+      <KeyValue key="isInCombat" value="false" type="boolean"/>
+      <KeyValue key="isUpdateLocked" value="false" type="boolean"/>
+    </KeyValues>
+  </Frame>
   <Frame name="ClassicPlates" hidden="true">
     <Scripts>
       <OnLoad>
-        self:SetScript("OnEvent", function(_self, event, ...) self[event](_self, ...) end)
+        self:SetScript("OnEvent", function(self, event, ...) self[event](self, ...) end)
         self:RegisterEvent("ADDON_LOADED")
         self:RegisterEvent("PLAYER_LOGIN")
+        self:RegisterEvent("PLAYER_LOGOUT")
         self:RegisterEvent("NAME_PLATE_CREATED")
         self:RegisterEvent("NAME_PLATE_UNIT_ADDED")
         self:RegisterEvent("NAME_PLATE_UNIT_REMOVED")
-        self.NamePlate = {}
+        self.cachedCVars = {}
       </OnLoad>
     </Scripts>
   </Frame>
+  <Script file="nameplate.lua"/>
   <Script file="highlight.lua"/>
   <Script file="combat.lua"/>
   <Script file="castbar.lua"/>
   <Script file="update.lua"/>
-  <Script file="create.lua"/>
-  <Script file="nameplate.lua"/>
   <Script file="options.lua"/>
   <Script file="addon.lua"/>
 </Ui>

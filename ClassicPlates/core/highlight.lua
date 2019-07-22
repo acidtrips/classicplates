@@ -2,11 +2,10 @@
 
     highlight.lua
 
-    Contains functions to update unit highlighted state.
+    Contains functions to update unit highlight state.
 
 --]]
 local UnitExists, UnitIsUnit = UnitExists, UnitIsUnit
-local NamePlate = ClassicPlates.NamePlate
 
 
 local function UnitIsMousedOver(unit)
@@ -14,19 +13,23 @@ local function UnitIsMousedOver(unit)
 end
 
 
-function NamePlate:Highlight_OnUpdate()
-  if ( self.isMouseOver ) then
+function NamePlateMixin:Highlight_OnUpdate(elapsed)
+  self.elapsed = (self.elapsed + elapsed)
+  if ( self.elapsed >= 0.1 ) then
     if ( not UnitIsMousedOver(self.unit) ) then
-      self.isMouseOver = false
+      self.isHighlighted = false
       self:Update_NameColor()
+      self:SetOnUpdate(nil)
     end
+    self.elapsed = 0
   end
 end
 
 
-function NamePlate:Update_Highlight()
-  if ( UnitIsMousedOver(self.unit) and not self.inCombat ) then
-    self.isMouseOver = true
+function NamePlateMixin:Update_Highlight()
+  if ( UnitIsMousedOver(self.unit) and not self.isInCombat ) then
+    self.isHighlighted = true
     self:Update_NameColor()
+    self:SetOnUpdate(self.Highlight_OnUpdate, false)
   end
 end

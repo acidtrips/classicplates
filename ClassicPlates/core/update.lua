@@ -5,13 +5,10 @@
     Contains functions that update nameplate elements.
 
 --]]
-local UnitIsUnit, UnitEffectiveLevel, UnitExists, UnitClass, UnitHealth, UnitHealthMax, GetUnitName, UnitTreatAsPlayerForDisplay,
-      UnitClassification, UnitCanAttack, UnitIsTapDenied, GetQuestGreenRange, UnitThreatSituation, UnitReaction,
-      GetRaidTargetIndex, SetRaidTargetIconTexture, GetNamePlates, CastBar_UpdateIsShown, ipairs =
-      UnitIsUnit, UnitEffectiveLevel, UnitExists, UnitClass, UnitHealth, UnitHealthMax, GetUnitName, UnitTreatAsPlayerForDisplay,
-      UnitClassification, UnitCanAttack, UnitIsTapDenied, GetQuestGreenRange, UnitThreatSituation, UnitReaction,
-      GetRaidTargetIndex, SetRaidTargetIconTexture, C_NamePlate.GetNamePlates, CastBar_UpdateIsShown, ipairs
-local NamePlate = ClassicPlates.NamePlate
+local UnitIsUnit, UnitEffectiveLevel, UnitExists, UnitClass, UnitHealth, UnitHealthMax, GetUnitName, UnitTreatAsPlayerForDisplay, UnitClassification,
+      UnitCanAttack, UnitIsTapDenied, GetQuestGreenRange, UnitThreatSituation, UnitReaction, GetRaidTargetIndex, SetRaidTargetIconTexture =
+      UnitIsUnit, UnitEffectiveLevel, UnitExists, UnitClass, UnitHealth, UnitHealthMax, GetUnitName, UnitTreatAsPlayerForDisplay, UnitClassification,
+      UnitCanAttack, UnitIsTapDenied, GetQuestGreenRange, UnitThreatSituation, UnitReaction, GetRaidTargetIndex, SetRaidTargetIconTexture
 
 
 local function GetUnitLevelColor(level)
@@ -39,7 +36,7 @@ local function GetUnitColor(unit)
 end
 
 
-function NamePlate:Update_Selection()
+function NamePlateMixin:Update_Selection()
   local alpha = 1.0
   if ( UnitExists("target") and not UnitIsUnit(self.unit, "target") ) then
     alpha = 0.49
@@ -48,19 +45,19 @@ function NamePlate:Update_Selection()
 end
 
 
-function NamePlate:Update_Health()
+function NamePlateMixin:Update_Health()
   local health = UnitHealth(self.unit)
   self.HealthBar:SetValue(health)
 end
 
 
-function NamePlate:Update_MaxHealth()
+function NamePlateMixin:Update_MaxHealth()
   local maxHealth = UnitHealthMax(self.unit)
   self.HealthBar:SetMinMaxValues(0, maxHealth)
 end
 
 
-function NamePlate:Update_HealthColor()
+function NamePlateMixin:Update_HealthColor()
   local _, class = UnitClass(self.unit)
   local classColor = RAID_CLASS_COLORS[class]
   local r, g, b = 1.0, 0.0, 0.0
@@ -81,8 +78,8 @@ function NamePlate:Update_HealthColor()
 end
 
 
-function NamePlate:Update_Threat()
-  local hasAggro = not UnitIsPlayer(self.unit) and
+function NamePlateMixin:Update_Threat()
+  local hasAggro = not (UnitIsPlayer(self.unit) or UnitTreatAsPlayerForDisplay(self.unit)) and
         UnitThreatSituation("player", self.unit) or nil
   if ( hasAggro and ClassicPlatesDB.showAggroWarnings ) then
     self.AggroWarning:Show()
@@ -92,20 +89,20 @@ function NamePlate:Update_Threat()
 end
 
 
-function NamePlate:Update_Name()
-  local name = GetUnitName(self.unit, false)
+function NamePlateMixin:Update_Name()
+  local name = GetUnitName(self.unit)
   self.NameText:SetText(name)
 end
 
 
-function NamePlate:Update_NameColor()
+function NamePlateMixin:Update_NameColor()
   local r, g, b = 1.0, 1.0, 1.0
   if ( UnitIsTapDenied(self.unit) ) then
     r, g, b = 0.5, 0.5, 0.5
   else
-    if ( self.inCombat ) then
+    if ( self.isInCombat ) then
       r, g, b = 1.0, 0.0, 0.0
-    elseif ( self.isMouseOver ) then
+    elseif ( self.isHighlighted ) then
       r, g, b = 1.0, 1.0, 0.0
     end
   end
@@ -113,7 +110,7 @@ function NamePlate:Update_NameColor()
 end
 
 
-function NamePlate:Update_Level()
+function NamePlateMixin:Update_Level()
   local level = UnitEffectiveLevel(self.unit)
   if ( level > 0 ) then
     local color = GetUnitLevelColor(level)
@@ -128,7 +125,7 @@ function NamePlate:Update_Level()
 end
 
 
-function NamePlate:Update_Classification()
+function NamePlateMixin:Update_Classification()
   local mobType = UnitClassification(self.unit)
   if ( mobType == "rare" or
        mobType == "rareelite" or
@@ -141,7 +138,7 @@ function NamePlate:Update_Classification()
 end
 
 
-function NamePlate:Update_RaidIcon()
+function NamePlateMixin:Update_RaidIcon()
   local index = GetRaidTargetIndex(self.unit)
   if ( index ) then
     SetRaidTargetIconTexture(self.RaidTargetIcon, index)
@@ -152,12 +149,12 @@ function NamePlate:Update_RaidIcon()
 end
 
 
-function NamePlate:Update_CastBar()
-  CastBar_UpdateIsShown(self.CastBar)
+function NamePlateMixin:Update_CastBar()
+  self.CastBar:UpdateIsShown()
 end
 
 
-function NamePlate:Update_All()
+function NamePlateMixin:Update_All()
   if ( UnitExists(self.unit) ) then
     self:Update_Highlight()
     self:Update_CastBar()
@@ -172,31 +169,4 @@ function NamePlate:Update_All()
     self:Update_Health()
     self:Update_HealthColor()
   end
-end
-
-
-function ClassicPlates:CallUpdateFunc(funcName)
-  for _, frame in ipairs(GetNamePlates()) do
-    frame.NamePlate[funcName](frame.NamePlate)
-  end
-end
-
-
-function ClassicPlates:SetUpdateFuncs(frame)
-  frame.Update_CastBar = NamePlate.Update_CastBar
-  frame.Update_Threat = NamePlate.Update_Threat
-  frame.Update_RaidIcon = NamePlate.Update_RaidIcon
-  frame.Update_Selection = NamePlate.Update_Selection
-  frame.Update_Classification = NamePlate.Update_Classification
-  frame.Update_Name = NamePlate.Update_Name
-  frame.Update_NameColor = NamePlate.Update_NameColor
-  frame.Update_Level = NamePlate.Update_Level
-  frame.Update_MaxHealth = NamePlate.Update_MaxHealth
-  frame.Update_Health = NamePlate.Update_Health
-  frame.Update_HealthColor = NamePlate.Update_HealthColor
-  frame.Update_All = NamePlate.Update_All
-  frame.Update_Highlight = NamePlate.Update_Highlight
-  frame.Update_Combat = NamePlate.Update_Combat
-  frame.Highlight_OnUpdate = NamePlate.Highlight_OnUpdate
-  frame.Combat_OnUpdate = NamePlate.Combat_OnUpdate
 end
