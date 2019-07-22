@@ -1,4 +1,4 @@
-## Interface: 80100
+## Interface: 80200
 ## Title: ClassicPlates
 ## Author: Tuska @ Mal'Ganis-US
 ## SavedVariablesPerCharacter: ClassicPlatesDB
