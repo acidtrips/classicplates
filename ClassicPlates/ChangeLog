@@ -29,25 +29,24 @@ Version 1.0.19
   * Changed to use UnitEffectiveLevel() instead of UnitLevel()
   * Changed unit levels to be colored with HighlightColors instead
   * Changed alpha value used in the unit selection code to 0.49 (down from 0.55)
-  * Added highlighting
+  * Added highlight state name coloring
   * Fixed friendly units not having their healthbar color change to their class color when dueling
   * Changed to use GetUnitName() instead of UnitName()
   * Rewrote how the castbar is anchored
   * Added basic options, these can be accessed through the default interface options "Names" under the subsection "ClassicPlates"
   * Rewrote Update_HealthColor() to better handle options
-  * Added GetUnitLevelColor() to replace GetCreatureDifficultyColor() returns unit level colors
+  * Added GetUnitLevelColor() to replace GetCreatureDifficultyColor()
   * Added options to configure the castbar
   * Added health bar coloring for tapped units
-  * Removed original castbar code, Now using a fork of Blizzard's castbar code for consistency purposes
-  * Added combat status
+  * Added combat state name coloring
   * Changed castbar text alignment, set a fixed width, and enabled word wrapping
   * Adjusted castbar spell text background positioning abit
-  * Cleaned up alot of global namespace pollution (castbar stuff remains, but it's getting there)
+  * Cleaned up alot of global namespace pollution
 
 Version 1.0.37
 
   * Updated for BFA
-  * Changed castbar to hide for player units on interrupted/failed/completed casts rather then fade out
+  * Changed castbar to hide for player units on finished casts rather then fade out
   * Removed friendly player class coloring support (<= WoD didnt support this natively)
   * Fixed tapped units being able to be highlighted
   * Improved how cvars are updated
@@ -56,5 +55,16 @@ Version 1.0.37
   * Cleaned up several unused variables and unused function arguments
   * Improved logic used to determine if a unit is allowed combat actions
   * Improved unit name coloring
-  * Changed nameplate frames to ignore parent scale and alpha
-  * Added check against UnitTreatAsPlayerForDisplay when updating health bar color
+  * Removed support for CUSTOM_CLASS_COLORS
+  * Changed nameplate frames to ignore parent alpha
+  * Added check against UnitTreatAsPlayerForDisplay when updating health bar color and aggro warnings
+  * Rewrote core nameplate creation code as an XML template
+  * Changed how update functions are inherited by nameplate frames
+  * Changed cvars to be updated at player login and restored to previous values on player logout
+  * Changed option updates to not be pushed when opening the interface options (i.e OnShow)
+  * Fixed bug pushing option updates that can occur if the personal resource display is enabled
+  * Fixed changing castbar display options not immediately updating active castbars
+  * Merged CallUpdateFunc functionality with options code
+  * Changed the value set for nameplateMotionSpeed to 0.1
+  * Fixed font drop shadows (actually define abs values for offset)
+  * Added more efficient OnUpdate method for updating highlight and combat states
