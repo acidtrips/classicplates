@@ -47,6 +47,7 @@ function ClassicPlates:AddOnCheck(name)
     "NamePlates", "NiceNameplates", "Threat Plates",
   }
   if ( tContains(knownAddOns, name) ) then
+    SendSystemMessage(format("|cffff0000ATTENTION:|r |cFF3782D1%s|r is disabled as it will conflict with |cFF3782D1%s|r", addOnName, name))
     self:UnregisterAllEvents()
   end
 end
