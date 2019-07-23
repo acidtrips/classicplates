@@ -6,8 +6,8 @@
 
 --]]
 local addOnName = ...
-local UnitIsUnit, GetNamePlateForUnit, SetCVar, GetCVar, tContains, pairs, tonumber =
-      UnitIsUnit, C_NamePlate.GetNamePlateForUnit, SetCVar, GetCVar, tContains, pairs, tonumber
+local UnitIsUnit, GetNamePlateForUnit, SetCVar, GetCVar, tContains, pairs, tonumber, format =
+      UnitIsUnit, C_NamePlate.GetNamePlateForUnit, SetCVar, GetCVar, tContains, pairs, tonumber, format
 
 
 function ClassicPlates:CVarUpdate()
@@ -47,7 +47,7 @@ function ClassicPlates:AddOnCheck(name)
     "NamePlates", "NiceNameplates", "Threat Plates",
   }
   if ( tContains(knownAddOns, name) ) then
-    SendSystemMessage(format("|cffff0000ATTENTION:|r |cFF3782D1%s|r is disabled as it will conflict with |cFF3782D1%s|r", addOnName, name))
+    print(format("|cffff0000ATTENTION:|r |cFF3782D1%s|r is disabled as it will conflict with |cFF3782D1%s|r", addOnName, name))
     self:UnregisterAllEvents()
   end
 end
