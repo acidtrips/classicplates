@@ -42,4 +42,5 @@ globals = {
   "HIGHLIGHT_FONT_COLOR",
   "GRAY_FONT_COLOR",
   "InterfaceOptionsNamesPanel",
+  "format",
 }
