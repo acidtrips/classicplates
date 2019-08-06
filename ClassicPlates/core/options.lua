@@ -11,10 +11,10 @@ local ClassicPlates, _G, CreateFrame, InterfaceOptionsNamesPanel, GetNamePlates,
 
 local OptionCheckButtons = {}
 OptionCheckButtons["ShowAggroWarning"] = {var = "showAggroWarnings", dependsOn = nil, text = "Display Aggro Warnings", toolTipText = "Turn this on to enable aggro warnings. Displays a red glow around nameplates for units that you have aggro with.", point = "BOTTOMLEFT", x = 16, y = 95, smallFont = nil, updateFunc = "Update_Threat"}
-OptionCheckButtons["ShowCastBars"] = {var = "showCastBars", text = "Show CastBars", dependsOn = {"CurrentTargetOnly", "ShowSpellNames"}, toolTipText = "Turn this on to show cast bars on unit nameplates.", point = "BOTTOMLEFT", x = 16, y = 65, smallFont = nil, updateFunc = "Update_CastBar"}
-OptionCheckButtons["CurrentTargetOnly"] = {var = "showCastBarsTargetOnly", dependsOn = nil, text = "Current Target Only", toolTipText = "Turn this on to show cast bars for your current target only.", point = "BOTTOMLEFT", x = 26, y = 44, smallFont = true, updateFunc = "Update_CastBar"}
-OptionCheckButtons["ShowSpellNames"] = {var = "showCastBarsSpellName", dependsOn = nil, text = "Show Spell Names", toolTipText = "Turn this on to show spell names on cast bars.", point = "BOTTOMLEFT", x = 26, y = 23,  smallFont = true, updateFunc = "Update_CastBar"}
-OptionCheckButtons["ShowClassColors"] = {var = "showClassColors", dependsOn = nil, text = "Show Class Colors", toolTipText = "Turn this on to show class colors on enemy player healthbars.", point = "BOTTOMRIGHT", x = -295, y = 95, smallFont = nil, updateFunc = "Update_HealthColor"}
+OptionCheckButtons["ShowCastBars"] = {var = "showCastBars", text = "Show CastBars", dependsOn = {"CurrentTargetOnly", "ShowSpellNames"}, toolTipText = "Turn this on to show cast bars on nameplates.", point = "BOTTOMLEFT", x = 16, y = 65, smallFont = nil, updateFunc = "Update_CastBar"}
+OptionCheckButtons["CurrentTargetOnly"] = {var = "showCastBarsTargetOnly", dependsOn = nil, text = "Current Target Only", toolTipText = "Turn this on to show the cast bar for your current target only.", point = "BOTTOMLEFT", x = 26, y = 44, smallFont = true, updateFunc = "Update_CastBar"}
+OptionCheckButtons["ShowSpellNames"] = {var = "showCastBarsSpellName", dependsOn = nil, text = "Show Spell Name", toolTipText = "Turn this on to show the spell name on cast bars.", point = "BOTTOMLEFT", x = 26, y = 23,  smallFont = true, updateFunc = "Update_CastBar"}
+OptionCheckButtons["ShowClassColors"] = {var = "showClassColors", dependsOn = nil, text = "Show Class Color", toolTipText = "Turn this on to use enemy class colors on healthbars.", point = "BOTTOMRIGHT", x = -295, y = 95, smallFont = nil, updateFunc = "Update_HealthColor"}
 
 
 local function OptionCheckButton_SetEnabledState(button, isEnabled)
