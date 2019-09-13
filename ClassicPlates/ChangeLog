@@ -68,3 +68,5 @@ Version 1.0.37
   * Changed the value set for nameplateMotionSpeed to 0.1
   * Fixed font drop shadows (actually define abs values for offset)
   * Added more efficient OnUpdate method for updating highlight and combat states
+  * Revised option tooltips
+  * Unit name color updates are now more efficient dealing with units becoming tap denied
