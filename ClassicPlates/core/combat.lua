@@ -5,8 +5,10 @@
     Contains functions to update unit combat state.
 
 --]]
-local GetTime, UnitIsFriend, UnitPlayerControlled, UnitIsTapDenied =
-      GetTime, UnitIsFriend, UnitPlayerControlled, UnitIsTapDenied
+local GetTime, UnitIsFriend, UnitPlayerControlled =
+      GetTime, UnitIsFriend, UnitPlayerControlled
+
+local COMBAT_ACTION_TIMEOUT = 3
 
 
 local function UnitIsFriendlyNPC(unit)
@@ -17,7 +19,7 @@ end
 function NamePlateMixin:Combat_OnUpdate(elapsed)
   self.elapsed = (self.elapsed + elapsed)
   if ( self.elapsed >= 1.0 ) then
-    if ( (GetTime() - self.lastCombatAction) >= 3 or UnitIsTapDenied(self.unit) ) then
+    if ( (GetTime() - self.lastCombatAction) >= COMBAT_ACTION_TIMEOUT ) then
       self.lastCombatAction = 0
       self.isInCombat = false
       self:Update_NameColor()
