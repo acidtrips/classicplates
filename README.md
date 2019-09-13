@@ -3,6 +3,7 @@ Lightweight nameplates that replicate the classic pre-legion look and feel,
 whilst staying compatible with most/if not all other addons that
 interface with the default blizzard nameplates.
 
+![Screenshot](https://i.postimg.cc/NGmrFCCt/Untitled.png)
 
 ## Features
 * Everything the original nameplates offered.
