@@ -45,6 +45,7 @@ function NamePlateMixin:OnEvent(event, ...)
     local _, action, _, amount  = ...
     self:Update_Combat(action, amount)
   elseif ( event == "UNIT_FACTION" ) then
+    self:Update_NameColor()
     self:Update_HealthColor()
   end
 end
