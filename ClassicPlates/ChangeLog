@@ -34,7 +34,7 @@ Version 1.0.19
   * Changed to use GetUnitName() instead of UnitName()
   * Rewrote how the castbar is anchored
   * Added basic options, these can be accessed through the default interface options "Names" under the subsection "ClassicPlates"
-  * Rewrote Update_HealthColor() to better handle options
+  * Rewrote UpdateHealthColor() to better handle options
   * Added GetUnitLevelColor() to replace GetCreatureDifficultyColor()
   * Added options to configure the castbar
   * Added health bar coloring for tapped units
@@ -69,4 +69,18 @@ Version 1.0.37
   * Fixed font drop shadows (actually define abs values for offset)
   * Added more efficient OnUpdate method for updating highlight and combat states
   * Revised option tooltips
-  * Unit name color updates are now more efficient dealing with units becoming tap denied
+  * Unit name color updates are now also performed on UNIT_FACTION events
+
+
+Version 1.0.63
+
+  * Renamed saved variable from ClassicPlatesDB to ClassPlatesOptions
+  * Changed update functions to no longer access global option table directly
+  * Reverted back to using GetCreatureDifficultyColor
+  * Unit classification updates are now also performed on UNIT_CLASSIFICATION_CHANGED events
+  * Updated aggro warnings to use threat level colors when displaying the texture,
+    also updated option tooltip to reflect that this is it's intended purpose
+  * Refactored castbar code
+  * Fixed possible bug where highlighting a nameplate could cause it overwrite the OnUpdate script handler
+  * Added experimental debuff tracking
+  * Added change to nameplateOverlapV (from 1.1 to 0.75)
