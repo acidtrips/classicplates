@@ -1,55 +1,90 @@
 <!--
 
-  addon.xml
+    addon.xml
 
-  Contains bootstrapping and XML template
+    Contains bootstrapping and XML templates
 
 -->
-<Ui xmlns="http://www.blizzard.com/wow/ui/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/
-..\FrameXML\UI.xsd">
+<Ui>
   <Frame name="ClassicPlateTemplate" parentkey="NamePlate" mixin="NamePlateMixin" ignoreParentAlpha="true" hidden="true" virtual="true">
-    <Size><AbsDimension x="140" y="39"/></Size>
-    <Anchors><Anchor point="CENTER" relativeTo="$parent" relativePoint="BOTTOM" x="0" y="30"/></Anchors>
+    <Size>
+      <AbsDimension x="140" y="39"/>
+    </Size>
+    <Anchors>
+      <Anchor point="CENTER" relativeTo="$parent" relativePoint="BOTTOM" x="0" y="25"/>
+    </Anchors>
     <Frames>
       <StatusBar parentKey="HealthBar" frameLevel="1">
-        <Size><AbsDimension x="105.2" y="11"/></Size>
-        <Anchors><Anchor point="BOTTOMLEFT" relativePoint="BOTTOMLEFT" x="5" y="4.8"/></Anchors>
+        <Size>
+          <AbsDimension x="105.2" y="11"/>
+        </Size>
+        <Anchors>
+          <Anchor point="BOTTOMLEFT" relativePoint="BOTTOMLEFT" x="5" y="4.8"/>
+        </Anchors>
         <BarTexture file="Interface/TargetingFrame/UI-TargetingFrame-BarFill"/>
         <BarColor r="1.0" g="0.0" b="0.0"/>
       </StatusBar>
       <StatusBar parentKey="CastBar" mixin="CastBarMixin" hidden="true">
-        <Size><AbsDimension x="115" y="13"/></Size>
-        <Anchors><Anchor point="BOTTOMLEFT" relativeKey="$parent.HealthBar" relativePoint="BOTTOMLEFT" x="17" y="-30"/></Anchors>
+        <Size>
+          <AbsDimension x="115" y="13"/>
+        </Size>
+        <Anchors>
+          <Anchor point="BOTTOMLEFT" relativeKey="$parent.HealthBar" relativePoint="BOTTOMLEFT" x="17" y="-30"/>
+        </Anchors>
         <BarTexture file="Interface/TargetingFrame/UI-TargetingFrame-BarFill"/>
         <BarColor r="1.0" g="0.7" b="0.0"/>
         <Layers>
           <Layer level="ARTWORK" textureSubLevel="1">
             <Texture parentKey="CastBarBorder" file="Interface/Tooltips/Nameplate-Border-Castbar">
-              <Size><AbsDimension x="140" y="40"/></Size>
-              <Anchors><Anchor point="TOPLEFT" relativePoint="TOPLEFT" x="-21" y="23"/></Anchors>
+              <Size>
+                <AbsDimension x="140" y="40"/>
+              </Size>
+              <Anchors>
+                <Anchor point="TOPLEFT" relativePoint="TOPLEFT" x="-21" y="23"/>
+              </Anchors>
             </Texture>
           </Layer>
           <Layer level="ARTWORK" textureSubLevel="2">
             <Texture parentKey="CastBarFrameShield" file="Interface/Tooltips/Nameplate-CastBar-Shield">
-              <Size><AbsDimension x="136" y="38"/></Size>
-              <Anchors><Anchor point="TOPLEFT" relativePoint="TOPLEFT" x="-18" y="12"/></Anchors>
+              <Size>
+                <AbsDimension x="136" y="38"/>
+              </Size>
+              <Anchors>
+                <Anchor point="TOPLEFT" relativePoint="TOPLEFT" x="-18" y="12"/>
+              </Anchors>
             </Texture>
           </Layer>
           <Layer level="ARTWORK" textureSubLevel="3">
             <Texture parentKey="CastBarTextBG" file="Interface/Common/NameShadow">
-              <Size><AbsDimension x="113" y="20"/></Size>
-              <Anchors><Anchor point="TOPLEFT" relativePoint="BOTTOMLEFT" x="0" y="1"/></Anchors>
+              <Size>
+                <AbsDimension x="113" y="20"/>
+              </Size>
+              <Anchors>
+                <Anchor point="TOPLEFT" relativePoint="BOTTOMLEFT" x="0" y="1"/>
+              </Anchors>
             </Texture>
             <Texture parentKey="CastBarSpellIcon">
-              <Size><AbsDimension x="16" y="16"/></Size>
-              <Anchors><Anchor point="RIGHT" relativePoint="LEFT" x="2" y="0"/></Anchors>
+              <Size>
+                <AbsDimension x="16" y="16"/>
+              </Size>
+              <Anchors>
+                <Anchor point="RIGHT" relativePoint="LEFT" x="2" y="0"/>
+              </Anchors>
             </Texture>
           </Layer>
           <Layer level="OVERLAY">
             <FontString parentKey="CastBarText" wordwrap="true" justifyH="CENTER" inherits="GameFontWhiteTiny">
-              <Size><AbsDimension x="113" y="0"/></Size>
-              <Shadow><Offset><AbsDimension x="1.56" y="-1.56"/></Offset></Shadow>
-              <Anchors><Anchor point="CENTER" relativePoint="BOTTOM" x="0" y="-4"/></Anchors>
+              <Size>
+                <AbsDimension x="113" y="0"/>
+              </Size>
+              <Shadow>
+                <Offset>
+                  <AbsDimension x="1.56" y="-1.56"/>
+                </Offset>
+              </Shadow>
+              <Anchors>
+                <Anchor point="CENTER" relativePoint="BOTTOM" x="0" y="-4"/>
+              </Anchors>
             </FontString>
           </Layer>
         </Layers>
@@ -63,44 +98,75 @@
     <Layers>
       <Layer level="ARTWORK" textureSubLevel="0">
         <Texture parentKey="EliteIcon" file="Interface/Tooltips/EliteNameplateIcon" hidden="true">
-          <Size><AbsDimension x="46" y="33.6"/></Size>
-          <Anchors><Anchor point="CENTER" relativeKey="$parent.Border" relativePoint="BOTTOMRIGHT" x="-12" y="9"/></Anchors>
+          <Size>
+            <AbsDimension x="46" y="33.6"/>
+          </Size>
+          <Anchors>
+            <Anchor point="CENTER" relativeKey="$parent.Border" relativePoint="BOTTOMRIGHT" x="-12" y="9"/>
+          </Anchors>
           <TexCoords left="0" right="0.578125" top="" bottom="0.84375"/>
         </Texture>
         <Texture parentKey="RaidTargetIcon" file="Interface/TargetingFrame/UI-RaidTargetingIcons" hidden="true">
-          <Size><AbsDimension x="31" y="31"/></Size>
-          <Anchors><Anchor point="RIGHT" relativePoint="LEFT" x="0" y="0"/></Anchors>
+          <Size>
+            <AbsDimension x="31" y="31"/>
+          </Size>
+          <Anchors>
+            <Anchor point="RIGHT" relativePoint="LEFT" x="0" y="0"/>
+          </Anchors>
         </Texture>
       </Layer>
       <Layer level="ARTWORK" textureSubLevel="1">
         <Texture parentKey="Border" file="Interface/Tooltips/Nameplate-Border">
-          <Size><AbsDimension x="140.9" y="39"/></Size>
-          <Anchors><Anchor point="TOPLEFT" relativePoint="TOPLEFT" x="0" y="0"/></Anchors>
+          <Size>
+            <AbsDimension x="140.9" y="39"/>
+          </Size>
+          <Anchors>
+            <Anchor point="TOPLEFT" relativePoint="TOPLEFT" x="0" y="0"/>
+          </Anchors>
           <TexCoords left="0" right="0.53125" top="0" bottom="1"/>
         </Texture>
       </Layer>
       <Layer level="ARTWORK" textureSubLevel="2">
         <Texture parentKey="HighLevelIcon" file="Interface/TargetingFrame/UI-TargetingFrame-Skull" hidden="true">
-          <Size><AbsDimension x="15" y="15"/></Size>
-          <Anchors><Anchor point="CENTER" relativeKey="$parent.Border" relativePoint="BOTTOMRIGHT" x="-16.4" y="11"/></Anchors>
+          <Size>
+            <AbsDimension x="15" y="15"/>
+          </Size>
+          <Anchors>
+            <Anchor point="CENTER" relativeKey="$parent.Border" relativePoint="BOTTOMRIGHT" x="-16.4" y="11"/>
+          </Anchors>
         </Texture>
       </Layer>
       <Layer level="BACKGROUND">
         <Texture parentKey="AggroWarning" file="Interface/TargetingFrame/UI-TargetingFrame-Flash" hidden="true">
-          <Size><AbsDimension x="155" y="43"/></Size>
-          <Anchors><Anchor point="BOTTOMLEFT" relativeKey="$parent.Border" relativePoint="BOTTOMLEFT" x="-8.4" y="-14.4"/></Anchors>
+          <Size>
+            <AbsDimension x="155" y="43"/>
+          </Size>
+          <Anchors>
+            <Anchor point="BOTTOMLEFT" relativeKey="$parent.Border" relativePoint="BOTTOMLEFT" x="-8.4" y="-14.4"/>
+          </Anchors>
           <TexCoords left="0.0" right="0.555" top="0.53" bottom="0.6"/>
-          <Color r="1.0" g="0.0" b="0.0" a="1.0"/>
         </Texture>
       </Layer>
       <Layer level="OVERLAY">
         <FontString parentKey="NameText" inherits="GameFontWhite">
-          <Shadow><Offset><AbsDimension x="1.56" y="-1.56"/></Offset></Shadow>
-          <Anchors><Anchor point="BOTTOM" relativePoint="CENTER" x="0" y="0"/></Anchors>
+          <Shadow>
+            <Offset>
+              <AbsDimension x="1.56" y="-1.56"/>
+            </Offset>
+          </Shadow>
+          <Anchors>
+            <Anchor point="BOTTOM" relativePoint="CENTER" x="0" y="0"/>
+          </Anchors>
         </FontString>
         <FontString parentKey="LevelText" inherits="GameFontWhite">
-          <Shadow><Offset><AbsDimension x="1.56" y="-1.56"/></Offset></Shadow>
-          <Anchors><Anchor point="CENTER" relativeKey="$parent.Border" relativePoint="BOTTOMRIGHT" x="-16.4" y="11.5"/></Anchors>
+          <Shadow>
+            <Offset>
+              <AbsDimension x="1.56" y="-1.56"/>
+            </Offset>
+          </Shadow>
+          <Anchors>
+            <Anchor point="CENTER" relativeKey="$parent.Border" relativePoint="BOTTOMRIGHT" x="-16.4" y="11.5"/>
+          </Anchors>
         </FontString>
       </Layer>
     </Layers>
@@ -111,6 +177,7 @@
         if ( parent.UnitFrame ) then
           parent.UnitFrame:HookScript("OnShow", self.OnShow)
         end
+        self.options = {}
       </OnLoad>
     </Scripts>
     <KeyValues>
@@ -119,9 +186,10 @@
       <KeyValue key="lastCombatAction" value="0" type="number"/>
       <KeyValue key="isHighlighted" value="false" type="boolean"/>
       <KeyValue key="isInCombat" value="false" type="boolean"/>
-      <KeyValue key="isUpdateLocked" value="false" type="boolean"/>
+      <KeyValue key="isOnUpdateLocked" value="false" type="boolean"/>
     </KeyValues>
   </Frame>
+
   <Frame name="ClassicPlates" hidden="true">
     <Scripts>
       <OnLoad>
@@ -136,6 +204,7 @@
       </OnLoad>
     </Scripts>
   </Frame>
+
   <Script file="nameplate.lua"/>
   <Script file="highlight.lua"/>
   <Script file="combat.lua"/>
