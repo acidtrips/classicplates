@@ -1,2 +1,1 @@
-* handle options better, should not be accessing ClassicPlatesDB directly in update functions
-  table per frame, updated, need to figure out how castbarmixin will have access?
+* investigate if WoD had friendly unit levels colored yellow always?
