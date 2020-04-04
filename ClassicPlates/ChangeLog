@@ -82,5 +82,4 @@ Version 1.0.63
     also updated option tooltip to reflect that this is it's intended purpose
   * Refactored castbar code
   * Fixed possible bug where highlighting a nameplate could cause it overwrite the OnUpdate script handler
-  * Added experimental debuff tracking
   * Added change to nameplateOverlapV (from 1.1 to 0.75)
