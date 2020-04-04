@@ -7,7 +7,7 @@ ignore = {
 
 globals = {
   "ClassicPlates",
-  "ClassicPlatesDB",
+  "ClassicPlatesOptions",
   "NamePlateMixin",
   "CastBarMixin",
   "C_NamePlate.GetNamePlateForUnit",
@@ -32,6 +32,8 @@ globals = {
   "UnitIsFriend",
   "UnitIsPlayer",
   "UnitIsTapDenied",
+  "GetCreatureDifficultyColor",
+  "GetThreatStatusColor",
   "GetTime",
   "GetUnitName",
   "GetQuestGreenRange",
