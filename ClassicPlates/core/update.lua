@@ -5,38 +5,29 @@
     Contains functions that update nameplate elements.
 
 --]]
-local UnitIsUnit, UnitEffectiveLevel, UnitExists, UnitClass, UnitHealth, UnitHealthMax, GetUnitName, UnitTreatAsPlayerForDisplay, UnitClassification,
-      UnitCanAttack, UnitIsTapDenied, GetQuestGreenRange, UnitThreatSituation, UnitReaction, GetRaidTargetIndex, SetRaidTargetIconTexture =
-      UnitIsUnit, UnitEffectiveLevel, UnitExists, UnitClass, UnitHealth, UnitHealthMax, GetUnitName, UnitTreatAsPlayerForDisplay, UnitClassification,
-      UnitCanAttack, UnitIsTapDenied, GetQuestGreenRange, UnitThreatSituation, UnitReaction, GetRaidTargetIndex, SetRaidTargetIconTexture
+local UnitIsUnit, UnitEffectiveLevel, UnitExists, UnitClass, UnitHealth, UnitHealthMax, GetUnitName, GetThreatStatusColor,
+      UnitTreatAsPlayerForDisplay, UnitPlayerControlled, UnitClassification, UnitCanAttack, UnitIsTapDenied,
+      UnitThreatSituation, UnitReaction, GetRaidTargetIndex, SetRaidTargetIconTexture, GetCreatureDifficultyColor =
+      UnitIsUnit, UnitEffectiveLevel, UnitExists, UnitClass, UnitHealth, UnitHealthMax, GetUnitName, GetThreatStatusColor,
+      UnitTreatAsPlayerForDisplay, UnitPlayerControlled, UnitClassification, UnitCanAttack, UnitIsTapDenied,
+      UnitThreatSituation, UnitReaction, GetRaidTargetIndex, SetRaidTargetIconTexture, GetCreatureDifficultyColor
 
 
-local function GetUnitLevelColor(level)
-  local diff = (level - UnitEffectiveLevel("player"))
-  if ( diff >= 5 ) then
-    return {r = 1.00, g = 0.10, b = 0.10}
-  elseif ( diff >= 3 ) then
-    return {r = 1.00, g = 0.50, b = 0.25}
-  elseif ( diff >= -4 ) then
-    return {r = 1.00, g = 1.00, b = 0.10}
-  elseif ( -diff <= GetQuestGreenRange() ) then
-    return {r = 0.43, g = 0.93, b = 0.43}
-  else
-    return {r = 0.70, g = 0.70, b = 0.70}
-  end
+local function IsUnitTapDenied(unit)
+  return not UnitPlayerControlled(unit) and UnitIsTapDenied(unit)
 end
 
 
-local function GetUnitColor(unit)
+local function GetUnitReactionColor(unit)
   local reaction = UnitReaction(unit, "player")
-  if ( reaction >= 4 ) then
+  if ( reaction and reaction >= 4 ) then
     return 0.0, 1.0, 0.0
   end
   return 1.0, 0.0, 0.0
 end
 
 
-function NamePlateMixin:Update_Selection()
+function NamePlateMixin:UpdateSelection()
   local alpha = 1.0
   if ( UnitExists("target") and not UnitIsUnit(self.unit, "target") ) then
     alpha = 0.49
@@ -45,59 +36,63 @@ function NamePlateMixin:Update_Selection()
 end
 
 
-function NamePlateMixin:Update_Health()
+function NamePlateMixin:UpdateHealth()
   local health = UnitHealth(self.unit)
   self.HealthBar:SetValue(health)
 end
 
 
-function NamePlateMixin:Update_MaxHealth()
+function NamePlateMixin:UpdateMaxHealth()
   local maxHealth = UnitHealthMax(self.unit)
   self.HealthBar:SetMinMaxValues(0, maxHealth)
 end
 
 
-function NamePlateMixin:Update_HealthColor()
+function NamePlateMixin:UpdateHealthColor()
   local _, class = UnitClass(self.unit)
   local classColor = RAID_CLASS_COLORS[class]
   local r, g, b = 1.0, 0.0, 0.0
   if ( UnitIsPlayer(self.unit) or UnitTreatAsPlayerForDisplay(self.unit) ) then
     if ( not UnitCanAttack("player", self.unit) ) then
       r, g, b = 0.0, 0.0, 1.0
-    elseif ( classColor and ClassicPlatesDB.showClassColors ) then
+    elseif ( classColor and self.options.showClassColors ) then
       r, g, b = classColor.r, classColor.g, classColor.b
     end
   else
-    if ( UnitIsTapDenied(self.unit) ) then
+    if ( IsUnitTapDenied(self.unit) ) then
       r, g, b = 0.5, 0.5, 0.5
     else
-      r, g, b = GetUnitColor(self.unit)
+      r, g, b = GetUnitReactionColor(self.unit)
     end
   end
   self.HealthBar:SetStatusBarColor(r, g, b)
 end
 
 
-function NamePlateMixin:Update_Threat()
-  local hasAggro = not (UnitIsPlayer(self.unit) or UnitTreatAsPlayerForDisplay(self.unit)) and
-        UnitThreatSituation("player", self.unit) or nil
-  if ( hasAggro and ClassicPlatesDB.showAggroWarnings ) then
-    self.AggroWarning:Show()
+function NamePlateMixin:UpdateThreat()
+  if ( not (UnitIsPlayer(self.unit) or UnitTreatAsPlayerForDisplay(self.unit)) ) then
+    local status = UnitThreatSituation("player", self.unit)
+    if ( status and status > 0 and self.options.showAggroWarnings ) then
+      self.AggroWarning:SetVertexColor(GetThreatStatusColor(status))
+      self.AggroWarning:Show()
+    else
+      self.AggroWarning:Hide()
+    end
   else
     self.AggroWarning:Hide()
   end
 end
 
 
-function NamePlateMixin:Update_Name()
+function NamePlateMixin:UpdateName()
   local name = GetUnitName(self.unit)
   self.NameText:SetText(name)
 end
 
 
-function NamePlateMixin:Update_NameColor()
+function NamePlateMixin:UpdateNameColor()
   local r, g, b = 1.0, 1.0, 1.0
-  if ( UnitIsTapDenied(self.unit) ) then
+  if ( IsUnitTapDenied(self.unit) ) then
     r, g, b = 0.5, 0.5, 0.5
   else
     if ( self.isInCombat ) then
@@ -110,10 +105,10 @@ function NamePlateMixin:Update_NameColor()
 end
 
 
-function NamePlateMixin:Update_Level()
+function NamePlateMixin:UpdateLevel()
   local level = UnitEffectiveLevel(self.unit)
   if ( level > 0 ) then
-    local color = GetUnitLevelColor(level)
+    local color = GetCreatureDifficultyColor(level)
     self.LevelText:SetText(level)
     self.LevelText:SetTextColor(color.r, color.g, color.b)
     self.LevelText:Show()
@@ -125,7 +120,7 @@ function NamePlateMixin:Update_Level()
 end
 
 
-function NamePlateMixin:Update_Classification()
+function NamePlateMixin:UpdateClassification()
   local mobType = UnitClassification(self.unit)
   if ( mobType == "rare" or
        mobType == "rareelite" or
@@ -138,7 +133,7 @@ function NamePlateMixin:Update_Classification()
 end
 
 
-function NamePlateMixin:Update_RaidIcon()
+function NamePlateMixin:UpdateRaidIcon()
   local index = GetRaidTargetIndex(self.unit)
   if ( index ) then
     SetRaidTargetIconTexture(self.RaidTargetIcon, index)
@@ -149,24 +144,24 @@ function NamePlateMixin:Update_RaidIcon()
 end
 
 
-function NamePlateMixin:Update_CastBar()
-  self.CastBar:UpdateIsShown()
+function NamePlateMixin:UpdateCastBar()
+  self.CastBar:UpdateIsShown(self.options)
 end
 
 
-function NamePlateMixin:Update_All()
+function NamePlateMixin:UpdateAll()
   if ( UnitExists(self.unit) ) then
-    self:Update_Highlight()
-    self:Update_CastBar()
-    self:Update_Threat()
-    self:Update_RaidIcon()
-    self:Update_Selection()
-    self:Update_Classification()
-    self:Update_Name()
-    self:Update_NameColor()
-    self:Update_Level()
-    self:Update_MaxHealth()
-    self:Update_Health()
-    self:Update_HealthColor()
+    self:UpdateHighlight()
+    self:UpdateCastBar()
+    self:UpdateThreat()
+    self:UpdateRaidIcon()
+    self:UpdateSelection()
+    self:UpdateClassification()
+    self:UpdateName()
+    self:UpdateNameColor()
+    self:UpdateLevel()
+    self:UpdateMaxHealth()
+    self:UpdateHealth()
+    self:UpdateHealthColor()
   end
 end
