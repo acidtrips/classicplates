@@ -5,16 +5,15 @@
     Contains functions that add options to blizzard's interface options panel
 
 --]]
-local ClassicPlates, _G, CreateFrame, InterfaceOptionsNamesPanel, GetNamePlates, GRAY_FONT_COLOR, HIGHLIGHT_FONT_COLOR =
-      ClassicPlates, _G, CreateFrame, InterfaceOptionsNamesPanel, C_NamePlate.GetNamePlates, GRAY_FONT_COLOR, HIGHLIGHT_FONT_COLOR
-
+local _G, CreateFrame, InterfaceOptionsNamesPanel, GetNamePlates, GRAY_FONT_COLOR, HIGHLIGHT_FONT_COLOR =
+      _G, CreateFrame, InterfaceOptionsNamesPanel, C_NamePlate.GetNamePlates, GRAY_FONT_COLOR, HIGHLIGHT_FONT_COLOR
 
 local OptionCheckButtons = {}
-OptionCheckButtons["ShowAggroWarning"] = {var = "showAggroWarnings", dependsOn = nil, text = "Display Aggro Warnings", toolTipText = "Turn this on to enable aggro warnings. Displays a red glow around nameplates for units that you have aggro with.", point = "BOTTOMLEFT", x = 16, y = 95, smallFont = nil, updateFunc = "Update_Threat"}
-OptionCheckButtons["ShowCastBars"] = {var = "showCastBars", text = "Show CastBars", dependsOn = {"CurrentTargetOnly", "ShowSpellNames"}, toolTipText = "Turn this on to show cast bars on nameplates.", point = "BOTTOMLEFT", x = 16, y = 65, smallFont = nil, updateFunc = "Update_CastBar"}
-OptionCheckButtons["CurrentTargetOnly"] = {var = "showCastBarsTargetOnly", dependsOn = nil, text = "Current Target Only", toolTipText = "Turn this on to show the cast bar for your current target only.", point = "BOTTOMLEFT", x = 26, y = 44, smallFont = true, updateFunc = "Update_CastBar"}
-OptionCheckButtons["ShowSpellNames"] = {var = "showCastBarsSpellName", dependsOn = nil, text = "Show Spell Name", toolTipText = "Turn this on to show the spell name on cast bars.", point = "BOTTOMLEFT", x = 26, y = 23,  smallFont = true, updateFunc = "Update_CastBar"}
-OptionCheckButtons["ShowClassColors"] = {var = "showClassColors", dependsOn = nil, text = "Show Class Color", toolTipText = "Turn this on to use enemy class colors on healthbars.", point = "BOTTOMRIGHT", x = -295, y = 95, smallFont = nil, updateFunc = "Update_HealthColor"}
+OptionCheckButtons["ShowAggroWarning"] = {var = "showAggroWarnings", dependsOn = nil, text = "Display Aggro Warnings", toolTipText = "Turn this on to enable aggro warnings.\r\n\r\nThis will show a glow around nameplates colored to represent the level of threat you have with them.", point = "BOTTOMLEFT", x = 16, y = 95, smallFont = nil, updateFunc = "UpdateThreat"}
+OptionCheckButtons["ShowCastBars"] = {var = "showCastBars", text = "Show Cast Bars", dependsOn = {"InterfaceOptionsCurrentTargetOnlyButton", "InterfaceOptionsShowSpellNamesButton"}, toolTipText = "Turn this on to show cast bars on nameplates.", point = "BOTTOMLEFT", x = 16, y = 65, smallFont = nil, updateFunc = "UpdateCastBar"}
+OptionCheckButtons["CurrentTargetOnly"] = {var = "showCastBarsTargetOnly", dependsOn = nil, text = "Current Target Only", toolTipText = "Turn this on to show the cast bar for your current target only.", point = "BOTTOMLEFT", x = 26, y = 44, smallFont = true, updateFunc = "UpdateCastBar"}
+OptionCheckButtons["ShowSpellNames"] = {var = "showCastBarsSpellName", dependsOn = nil, text = "Show Spell Name", toolTipText = "Turn this on to show the spell name on cast bars.", point = "BOTTOMLEFT", x = 26, y = 23,  smallFont = true, updateFunc = "UpdateCastBar"}
+OptionCheckButtons["ShowClassColors"] = {var = "showClassColors", dependsOn = nil, text = "Show Class Color", toolTipText = "Turn this on to use enemy class colors on healthbars.", point = "BOTTOMRIGHT", x = -295, y = 95, smallFont = nil, updateFunc = "UpdateHealthColor"}
 
 
 local function OptionCheckButton_SetEnabledState(button, isEnabled)
@@ -32,20 +31,20 @@ local function OptionCheckButton_Update(self, doUpdate)
   local isChecked = self:GetChecked()
   if ( self.dependsOn ) then
     for _, name in pairs(self.dependsOn) do
-      local button = _G["InterfaceOptions"..name.."Button"]
+      local button = _G[name]
       if ( button ) then
         OptionCheckButton_SetEnabledState(button, isChecked)
       end
     end
   end
   if ( self.var ) then
-    ClassicPlatesDB[self.var] = isChecked
+    ClassicPlatesOptions[self.var] = isChecked
   end
-  if ( self.updateFunc and doUpdate ) then
+  if ( self.updateFunc ) then
     for _, frame in pairs(GetNamePlates()) do
       local nameplate = frame.NamePlate
       if ( nameplate and nameplate.unit ) then
-        nameplate[self.updateFunc](nameplate)
+        nameplate:UpdateOption(self.var, isChecked, self.updateFunc, doUpdate)
       end
     end
   end
@@ -58,7 +57,7 @@ end
 
 
 local function OptionCheckButton_OnShow(self)
-  OptionCheckButton_Update(self)
+  OptionCheckButton_Update(self, nil)
 end
 
 
@@ -73,7 +72,7 @@ local function OptionCheckButton_Create(buttonName, buttonInfo)
   button.dependsOn = buttonInfo.dependsOn
   button.updateFunc = buttonInfo.updateFunc
   button:SetPoint(buttonInfo.point, buttonInfo.x, buttonInfo.y)
-  button:SetChecked(ClassicPlatesDB[buttonInfo.var])
+  button:SetChecked(ClassicPlatesOptions[buttonInfo.var])
   button:SetScript("OnClick", OptionCheckButton_OnClick)
   button:SetScript("OnShow", OptionCheckButton_OnShow)
 end
