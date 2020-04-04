@@ -1,8 +1,8 @@
-## Interface: 80200
+## Interface: 80300
 ## Title: ClassicPlates
 ## Author: Acidtrips @ Mal'Ganis-US
-## SavedVariablesPerCharacter: ClassicPlatesDB
-## Version: 1.0.37
+## SavedVariablesPerCharacter: ClassicPlatesOptions
+## Version: 1.0.63
 ## Notes: Lightweight nameplates that replicate the pre-legion look and feel.
 
 core\addon.xml
