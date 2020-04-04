@@ -1,8 +1,8 @@
 --[[
 
-  addon.lua
+    addon.lua
 
-  Contains addon event handlers.
+    Contains addon event handlers and cvar mods.
 
 --]]
 local addOnName = ...
@@ -18,6 +18,7 @@ function ClassicPlates:CVarUpdate()
     nameplateLargerScale = 1.0, nameplateSelectedScale = 1.0,
     nameplateShowAll = 1, nameplateShowFriendlyNPCs = 1,
     nameplateMaxDistance = 40, nameplateMotionSpeed = 0.1,
+    nameplateOverlapV = 0.75,
   }
   for cvar, value in pairs(cvars) do
     local curValue = tonumber(GetCVar(cvar))
@@ -39,29 +40,29 @@ function ClassicPlates:CVarRestore()
 end
 
 
-function ClassicPlates:AddOnCheck(name)
+function ClassicPlates:ConflictCheck(name)
   local knownAddOns = {
     "Kui_Nameplates", "Tidy Plates", "Plater",
     "nPlates", "bdNameplates", "EKPlates",
-    "NamePlateKAI", "NephilistNameplates",
+    "NamePlateKAI", "NephilistNameplates", "NeatPlates",
     "NamePlates", "NiceNameplates", "Threat Plates",
   }
   if ( tContains(knownAddOns, name) ) then
-    print(format("|cffff0000ATTENTION:|r |cFF3782D1%s|r is disabled as it will conflict with |cFF3782D1%s|r", addOnName, name))
+    print(format("|cffff0000ATTENTION:|r |cFF3782D1%s|r was disabled as it will conflict with |cFF3782D1%s|r", addOnName, name))
     self:UnregisterAllEvents()
   end
 end
 
 
-function ClassicPlates:ADDON_LOADED(...)
-  if ( addOnName == ... and ClassicPlatesDB == nil ) then
-    ClassicPlatesDB = {
+function ClassicPlates:ADDON_LOADED(name)
+  if ( addOnName == name and ClassicPlatesOptions == nil ) then
+    ClassicPlatesOptions = {
       showAggroWarnings = true, showClassColors = false,
       showCastBars = true, showCastBarsTargetOnly = false,
       showCastBarsSpellName = false,
     }
   end
-  self:AddOnCheck(...)
+  self:ConflictCheck(name)
 end
 
 
