@@ -5,24 +5,21 @@
     Contains functions to update unit combat state.
 
 --]]
-local GetTime, UnitIsFriend, UnitPlayerControlled =
-      GetTime, UnitIsFriend, UnitPlayerControlled
-
-local COMBAT_ACTION_TIMEOUT = 3
+local GetTime, UnitIsFriend, UnitPlayerControlled = GetTime, UnitIsFriend, UnitPlayerControlled
 
 
-local function UnitIsFriendlyNPC(unit)
-  return (UnitIsFriend(unit, "player") and not UnitPlayerControlled(unit))
+local function IsUnitFriendlyNPC(unit)
+  return not UnitPlayerControlled(unit) and UnitIsFriend(unit, "player")
 end
 
 
-function NamePlateMixin:Combat_OnUpdate(elapsed)
+function NamePlateMixin:CombatOnUpdate(elapsed)
   self.elapsed = (self.elapsed + elapsed)
   if ( self.elapsed >= 1.0 ) then
-    if ( (GetTime() - self.lastCombatAction) >= COMBAT_ACTION_TIMEOUT ) then
+    if ( (GetTime() - self.lastCombatAction) >= 3 ) then
       self.lastCombatAction = 0
       self.isInCombat = false
-      self:Update_NameColor()
+      self:UpdateNameColor()
       self:SetOnUpdate(nil)
     end
     self.elapsed = 0
@@ -30,12 +27,12 @@ function NamePlateMixin:Combat_OnUpdate(elapsed)
 end
 
 
-function NamePlateMixin:Update_Combat(action, amount)
-  if ( (action == "WOUND" and amount ~= 0) and not UnitIsFriendlyNPC(self.unit) ) then
+function NamePlateMixin:UpdateCombat(action, amount)
+  if ( (action == "WOUND" and amount ~= 0) and not IsUnitFriendlyNPC(self.unit) ) then
     if ( not self.isInCombat ) then
       self.isInCombat = true
-      self:Update_NameColor()
-      self:SetOnUpdate(self.Combat_OnUpdate, true)
+      self:UpdateNameColor()
+      self:SetOnUpdate(self.CombatOnUpdate, true)
     end
     self.lastCombatAction = GetTime()
   end
