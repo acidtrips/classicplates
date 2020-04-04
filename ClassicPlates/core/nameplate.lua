@@ -19,48 +19,63 @@ end
 
 function NamePlateMixin:OnEvent(event, ...)
   if ( event == "UNIT_MAXHEALTH" ) then
-    self:Update_MaxHealth()
+    self:UpdateMaxHealth()
   elseif ( event == "UNIT_HEALTH" or event == "UNIT_HEALTH_FREQUENT" ) then
-    self:Update_Health()
+    self:UpdateHealth()
   elseif ( event == "UNIT_LEVEL" ) then
-    self:Update_Level()
+    self:UpdateLevel()
   elseif ( event == "UNIT_NAME_UPDATE" ) then
-    self:Update_Name()
-    self:Update_NameColor()
+    self:UpdateName()
+    self:UpdateNameColor()
   elseif ( event == "UNIT_THREAT_LIST_UPDATE" or event == "UNIT_THREAT_SITUATION_UPDATE" ) then
-    self:Update_Threat()
+    self:UpdateThreat()
   elseif ( event == "RAID_TARGET_UPDATE" ) then
-    self:Update_RaidIcon()
+    self:UpdateRaidIcon()
   elseif ( event == "PLAYER_TARGET_CHANGED" ) then
-    if ( ClassicPlatesDB.showCastBarsTargetOnly ) then
-      self:Update_CastBar()
+    if ( self.options.showCastBarsTargetOnly ) then
+      self:UpdateCastBar()
     end
-    self:Update_Highlight()
-    self:Update_Selection()
+    self:UpdateHighlight()
+    self:UpdateSelection()
   elseif ( event == "PLAYER_ENTERING_WORLD" ) then
-    self:Update_All()
+    self:UpdateAll()
   elseif ( event == "UPDATE_MOUSEOVER_UNIT" ) then
-    self:Update_Highlight()
+    self:UpdateHighlight()
   elseif ( event == "UNIT_COMBAT" ) then
-    local _, action, _, amount  = ...
-    self:Update_Combat(action, amount)
+    local _, action, _, amount = ...
+    self:UpdateCombat(action, amount)
   elseif ( event == "UNIT_FACTION" ) then
-    self:Update_NameColor()
-    self:Update_HealthColor()
+    self:UpdateNameColor()
+    self:UpdateHealthColor()
+  elseif ( event == "UNIT_CLASSIFICATION_CHANGED" ) then
+    self:UpdateClassification()
   end
 end
 
 
-function NamePlateMixin:SetOnUpdate(updateFunc, lockUpdate)
+function NamePlateMixin:SetOnUpdate(updateFunc, lockOnUpdate)
   if ( updateFunc ) then
-    if ( not self.isUpdateLocked ) then
+    if ( not self.isOnUpdateLocked ) then
       self.elapsed = 0
       self:SetScript("OnUpdate", updateFunc)
     end
   else
     self:SetScript("OnUpdate", nil)
   end
-  self.isUpdateLocked = lockUpdate
+  self.isOnUpdateLocked = lockOnUpdate
+end
+
+
+function NamePlateMixin:SetOptions()
+  self.options = ClassicPlatesOptions
+end
+
+
+function NamePlateMixin:UpdateOption(var, value, updateFunc, doUpdate)
+  self.options[var] = value
+  if ( doUpdate ) then
+    self[updateFunc](self)
+  end
 end
 
 
@@ -75,6 +90,7 @@ function ClassicPlates:OnUnitRemoved(frame)
   frame.isInCombat = false
   frame.lastCombatAction = 0
   frame.elapsed = 0
+  frame.options = nil
   frame.CastBar:SetUnit(nil)
   frame:SetOnUpdate(nil)
   frame:UnregisterAllEvents()
@@ -84,8 +100,9 @@ end
 
 function ClassicPlates:OnUnitAdded(frame, unit)
   frame.unit = unit
+  frame:SetOptions()
   frame.CastBar:SetUnit(unit)
-  frame:Update_All()
+  frame:UpdateAll()
   frame:RegisterEvent("PLAYER_ENTERING_WORLD")
   frame:RegisterEvent("PLAYER_TARGET_CHANGED")
   frame:RegisterEvent("RAID_TARGET_UPDATE")
@@ -99,5 +116,6 @@ function ClassicPlates:OnUnitAdded(frame, unit)
   frame:RegisterUnitEvent("UNIT_NAME_UPDATE", unit)
   frame:RegisterUnitEvent("UNIT_THREAT_LIST_UPDATE", unit)
   frame:RegisterUnitEvent("UNIT_THREAT_SITUATION_UPDATE", unit)
+  frame:RegisterUnitEvent("UNIT_CLASSIFICATION_CHANGED", unit)
   frame:Show()
 end
