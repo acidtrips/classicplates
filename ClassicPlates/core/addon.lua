@@ -85,6 +85,10 @@ end
 function ClassicPlates:NAME_PLATE_UNIT_ADDED(unit)
   if ( not UnitIsUnit("player", unit) ) then
     local frame = GetNamePlateForUnit(unit)
+    if ( frame.UnitFrame ) then
+      frame.UnitFrame:HookScript("OnShow", function(_self) _self:Hide() end)
+      frame.UnitFrame:Hide()
+    end
     self:OnUnitAdded(frame.NamePlate, unit)
   end
 end
@@ -92,6 +96,9 @@ end
 
 function ClassicPlates:NAME_PLATE_UNIT_REMOVED(unit)
   local frame = GetNamePlateForUnit(unit)
+  if ( frame.UnitFrame ) then
+    frame.UnitFrame:HookScript("OnShow", nil)
+  end
   self:OnUnitRemoved(frame.NamePlate)
 end
 

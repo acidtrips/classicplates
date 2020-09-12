@@ -101,7 +101,7 @@ function NamePlateMixin:UpdateNameColor()
       r, g, b = 1.0, 1.0, 0.0
     end
   end
-  self.NameText:SetTextColor(r, g, b)
+  self.NameText:SetVertexColor(r, g, b)
 end
 
 
@@ -110,7 +110,7 @@ function NamePlateMixin:UpdateLevel()
   if ( level > 0 ) then
     local color = GetCreatureDifficultyColor(level)
     self.LevelText:SetText(level)
-    self.LevelText:SetTextColor(color.r, color.g, color.b)
+    self.LevelText:SetVertexColor(color.r, color.g, color.b)
     self.LevelText:Show()
     self.HighLevelIcon:Hide()
   else

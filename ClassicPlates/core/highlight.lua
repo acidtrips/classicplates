@@ -27,8 +27,8 @@ end
 
 
 function NamePlateMixin:UpdateHighlight()
-  if ( not self.isHighlighted ) then
-    if ( IsUnitMousedOver(self.unit) and not self.isInCombat ) then
+  if ( IsUnitMousedOver(self.unit) and not self:IsOnUpdateLocked() ) then
+    if ( not self.isHighlighted ) then
       self.isHighlighted = true
       self:UpdateNameColor()
       self:SetOnUpdate(self.HighlightOnUpdate, nil)

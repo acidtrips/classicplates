@@ -36,7 +36,7 @@ end
 
 function CastBarMixin:UpdateBorder(notInterruptible)
   local yOffset = notInterruptible and -30 or -20
-  self:SetPoint("BOTTOMLEFT", self:GetParent().HealthBar, "BOTTOMLEFT", 17, yOffset)
+  self:SetPoint("BOTTOMLEFT", self:GetParent().HealthBar, "BOTTOMLEFT", 16, yOffset)
   self.CastBarFrameShield:SetShown(notInterruptible)
   self.CastBarBorder:SetShown(not notInterruptible)
 end
@@ -92,9 +92,6 @@ end
 
 
 function CastBarMixin:CastStop(castID)
-  if ( not self:IsVisible() ) then
-    self:Hide()
-  end
   if ( self.isCasting and castID == self.castID ) then
     self:SetValue(self.maxValue)
     self.isCasting = nil
@@ -104,9 +101,6 @@ end
 
 
 function CastBarMixin:CastChannelStop()
-  if ( not self:IsVisible() ) then
-    self:Hide()
-  end
   if ( self.isChanneling ) then
     self:SetValue(self.maxValue)
     self.isChanneling = nil

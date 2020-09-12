@@ -5,11 +5,11 @@
     Contains functions that add options to blizzard's interface options panel
 
 --]]
-local _G, CreateFrame, InterfaceOptionsNamesPanel, GetNamePlates, GRAY_FONT_COLOR, HIGHLIGHT_FONT_COLOR =
-      _G, CreateFrame, InterfaceOptionsNamesPanel, C_NamePlate.GetNamePlates, GRAY_FONT_COLOR, HIGHLIGHT_FONT_COLOR
+local _G, CreateFrame, InterfaceOptionsNamesPanel, GetNamePlates, UnitExists, GRAY_FONT_COLOR, HIGHLIGHT_FONT_COLOR =
+      _G, CreateFrame, InterfaceOptionsNamesPanel, C_NamePlate.GetNamePlates, UnitExists, GRAY_FONT_COLOR, HIGHLIGHT_FONT_COLOR
 
 local OptionCheckButtons = {}
-OptionCheckButtons["ShowAggroWarning"] = {var = "showAggroWarnings", dependsOn = nil, text = "Display Aggro Warnings", toolTipText = "Turn this on to enable aggro warnings.\r\n\r\nThis will show a glow around nameplates colored to represent the level of threat you have with them.", point = "BOTTOMLEFT", x = 16, y = 95, smallFont = nil, updateFunc = "UpdateThreat"}
+OptionCheckButtons["ShowAggroWarning"] = {var = "showAggroWarnings", dependsOn = nil, text = "Display Aggro Warnings", toolTipText = "Turn this on to enable aggro warnings.\r\n\r\nThis will show a glow around nameplates colored to represent the level of threat you have with each unit.", point = "BOTTOMLEFT", x = 16, y = 95, smallFont = nil, updateFunc = "UpdateThreat"}
 OptionCheckButtons["ShowCastBars"] = {var = "showCastBars", text = "Show Cast Bars", dependsOn = {"InterfaceOptionsCurrentTargetOnlyButton", "InterfaceOptionsShowSpellNamesButton"}, toolTipText = "Turn this on to show cast bars on nameplates.", point = "BOTTOMLEFT", x = 16, y = 65, smallFont = nil, updateFunc = "UpdateCastBar"}
 OptionCheckButtons["CurrentTargetOnly"] = {var = "showCastBarsTargetOnly", dependsOn = nil, text = "Current Target Only", toolTipText = "Turn this on to show the cast bar for your current target only.", point = "BOTTOMLEFT", x = 26, y = 44, smallFont = true, updateFunc = "UpdateCastBar"}
 OptionCheckButtons["ShowSpellNames"] = {var = "showCastBarsSpellName", dependsOn = nil, text = "Show Spell Name", toolTipText = "Turn this on to show the spell name on cast bars.", point = "BOTTOMLEFT", x = 26, y = 23,  smallFont = true, updateFunc = "UpdateCastBar"}
@@ -43,7 +43,7 @@ local function OptionCheckButton_Update(self, doUpdate)
   if ( self.updateFunc ) then
     for _, frame in pairs(GetNamePlates()) do
       local nameplate = frame.NamePlate
-      if ( nameplate and nameplate.unit ) then
+      if ( nameplate and UnitExists(nameplate.unit) ) then
         nameplate:UpdateOption(self.var, isChecked, self.updateFunc, doUpdate)
       end
     end

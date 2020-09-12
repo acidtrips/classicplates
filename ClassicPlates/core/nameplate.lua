@@ -5,22 +5,15 @@
     Contains functions that drive the nameplate frames.
 
 --]]
-local UnitIsUnit, CreateFrame = UnitIsUnit, CreateFrame
+local CreateFrame = CreateFrame
 
 NamePlateMixin = {}
-
-
-function NamePlateMixin:OnShow()
-  if ( self.unit and not UnitIsUnit("player", self.unit) ) then
-    self:Hide()
-  end
-end
 
 
 function NamePlateMixin:OnEvent(event, ...)
   if ( event == "UNIT_MAXHEALTH" ) then
     self:UpdateMaxHealth()
-  elseif ( event == "UNIT_HEALTH" or event == "UNIT_HEALTH_FREQUENT" ) then
+  elseif ( event == "UNIT_HEALTH" ) then
     self:UpdateHealth()
   elseif ( event == "UNIT_LEVEL" ) then
     self:UpdateLevel()
@@ -55,7 +48,7 @@ end
 
 function NamePlateMixin:SetOnUpdate(updateFunc, lockOnUpdate)
   if ( updateFunc ) then
-    if ( not self.isOnUpdateLocked ) then
+    if ( not self:IsOnUpdateLocked() ) then
       self.elapsed = 0
       self:SetScript("OnUpdate", updateFunc)
     end
@@ -63,6 +56,11 @@ function NamePlateMixin:SetOnUpdate(updateFunc, lockOnUpdate)
     self:SetScript("OnUpdate", nil)
   end
   self.isOnUpdateLocked = lockOnUpdate
+end
+
+
+function NamePlateMixin:IsOnUpdateLocked()
+  return self.isOnUpdateLocked
 end
 
 
@@ -110,7 +108,6 @@ function ClassicPlates:OnUnitAdded(frame, unit)
   frame:RegisterUnitEvent("UNIT_COMBAT", unit)
   frame:RegisterUnitEvent("UNIT_FACTION", unit)
   frame:RegisterUnitEvent("UNIT_MAXHEALTH", unit)
-  frame:RegisterUnitEvent("UNIT_HEALTH_FREQUENT", unit)
   frame:RegisterUnitEvent("UNIT_HEALTH", unit)
   frame:RegisterUnitEvent("UNIT_LEVEL", unit)
   frame:RegisterUnitEvent("UNIT_NAME_UPDATE", unit)
