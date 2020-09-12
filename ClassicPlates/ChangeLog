@@ -83,3 +83,13 @@ Version 1.0.63
   * Refactored castbar code
   * Fixed possible bug where highlighting a nameplate could cause it overwrite the OnUpdate script handler
   * Added change to nameplateOverlapV (from 1.1 to 0.75)
+
+
+Version 1.0.68
+
+  * Updated for Shadowlands
+    * Removed UNIT_HEALTH_FREQUENT
+    * Changed to use alternative art asset for nameplate border
+    * Changed how blizzard nameplates are hidden, since blizzard likes to change things
+  * Changed NamePlateMixin:UpdateOption to use UnitExists instead of checking explicitly if unit is nil
+  * Changed to use SetVextexColor instead of SetTextColor when setting text colors for NameText and LevelText
