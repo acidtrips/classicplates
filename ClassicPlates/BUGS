@@ -1,1 +1,1 @@
-* currently no known bugs
+* possible issue with drop shadows on fonts namely NameText being wiped out somehow (seen mostly when combat state changes occur)
