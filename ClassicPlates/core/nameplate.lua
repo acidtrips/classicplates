@@ -25,7 +25,7 @@ function NamePlateMixin:OnEvent(event, ...)
   elseif ( event == "RAID_TARGET_UPDATE" ) then
     self:UpdateRaidIcon()
   elseif ( event == "PLAYER_TARGET_CHANGED" ) then
-    if ( self.options.showCastBarsTargetOnly ) then
+    if ( self.optionTable.showCastBarsTargetOnly ) then
       self:UpdateCastBar()
     end
     self:UpdateHighlight()
@@ -65,12 +65,12 @@ end
 
 
 function NamePlateMixin:SetOptions()
-  self.options = ClassicPlatesOptions
+  self.optionTable = ClassicPlatesOptions
 end
 
 
 function NamePlateMixin:UpdateOption(var, value, updateFunc, doUpdate)
-  self.options[var] = value
+  self.optionTable[var] = value
   if ( doUpdate ) then
     self[updateFunc](self)
   end
@@ -88,7 +88,7 @@ function ClassicPlates:OnUnitRemoved(frame)
   frame.isInCombat = false
   frame.lastCombatAction = 0
   frame.elapsed = 0
-  frame.options = nil
+  frame.optionTable = nil
   frame.CastBar:SetUnit(nil)
   frame:SetOnUpdate(nil)
   frame:UnregisterAllEvents()
