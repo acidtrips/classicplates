@@ -2,7 +2,7 @@
 ## Title: ClassicPlates
 ## Author: Acidtrips @ Mal'Ganis-US
 ## SavedVariablesPerCharacter: ClassicPlatesOptions
-## Version: 1.0.68
+## Version: 1.0.69
 ## Notes: Lightweight nameplates that replicate the pre-legion look and feel.
 
 core\addon.xml
