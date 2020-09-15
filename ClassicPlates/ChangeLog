@@ -85,11 +85,12 @@ Version 1.0.63
   * Added change to nameplateOverlapV (from 1.1 to 0.75)
 
 
-Version 1.0.68
+Version 1.0.69
 
   * Updated for Shadowlands
     * Removed UNIT_HEALTH_FREQUENT
     * Changed to use alternative art asset for nameplate border
     * Changed how blizzard nameplates are hidden, since blizzard likes to change things
   * Changed NamePlateMixin:UpdateOption to use UnitExists instead of checking explicitly if unit is nil
-  * Changed to use SetVextexColor instead of SetTextColor when setting text colors for NameText and LevelText
+  * Changed to use SetVertexColor instead of SetTextColor when setting text colors for NameText and LevelText
+  * Added color attribute when defining the shadow attribute of fontstrings in the XML template
