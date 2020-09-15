@@ -150,8 +150,9 @@
         <FontString parentKey="NameText" inherits="GameFontWhite">
           <Shadow>
             <Offset>
-              <AbsDimension x="1.56" y="-1.56"/>
+              <AbsDimension x="1.569" y="-1.569"/>
             </Offset>
+            <Color r="0" g="0" b="0"/>
           </Shadow>
           <Anchors>
             <Anchor point="BOTTOM" relativePoint="CENTER" x="0" y="0"/>
@@ -160,8 +161,9 @@
         <FontString parentKey="LevelText" inherits="GameFontWhite">
           <Shadow>
             <Offset>
-              <AbsDimension x="1.56" y="-1.56"/>
+              <AbsDimension x="1.569" y="-1.569"/>
             </Offset>
+            <Color r="0" g="0" b="0"/>
           </Shadow>
           <Anchors>
             <Anchor point="CENTER" relativeKey="$parent.Border" relativePoint="BOTTOMRIGHT" x="-12" y="11.5"/>
@@ -172,7 +174,7 @@
     <Scripts>
       <OnEvent method="OnEvent"/>
       <OnLoad>
-        self.options = {}
+        self.optionTable = {}
       </OnLoad>
     </Scripts>
     <KeyValues>
