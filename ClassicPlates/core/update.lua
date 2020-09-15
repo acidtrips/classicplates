@@ -55,7 +55,7 @@ function NamePlateMixin:UpdateHealthColor()
   if ( UnitIsPlayer(self.unit) or UnitTreatAsPlayerForDisplay(self.unit) ) then
     if ( not UnitCanAttack("player", self.unit) ) then
       r, g, b = 0.0, 0.0, 1.0
-    elseif ( classColor and self.options.showClassColors ) then
+    elseif ( classColor and self.optionTable.showClassColors ) then
       r, g, b = classColor.r, classColor.g, classColor.b
     end
   else
@@ -72,7 +72,7 @@ end
 function NamePlateMixin:UpdateThreat()
   if ( not (UnitIsPlayer(self.unit) or UnitTreatAsPlayerForDisplay(self.unit)) ) then
     local status = UnitThreatSituation("player", self.unit)
-    if ( status and status > 0 and self.options.showAggroWarnings ) then
+    if ( status and status > 0 and self.optionTable.showAggroWarnings ) then
       self.AggroWarning:SetVertexColor(GetThreatStatusColor(status))
       self.AggroWarning:Show()
     else
@@ -145,7 +145,7 @@ end
 
 
 function NamePlateMixin:UpdateCastBar()
-  self.CastBar:UpdateIsShown(self.options)
+  self.CastBar:UpdateIsShown(self.optionTable)
 end
 
 
