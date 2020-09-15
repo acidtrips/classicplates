@@ -11,9 +11,9 @@ local UnitIsUnit, UnitIsPlayer, UnitCastingInfo, UnitChannelInfo, GetTime =
 CastBarMixin = {}
 
 
-function CastBarMixin:ShouldShowCastBar(options)
-  if ( options.showCastBars ) then
-    if ( options.showCastBarsTargetOnly ) then
+function CastBarMixin:ShouldShowCastBar(optionTable)
+  if ( optionTable.showCastBars ) then
+    if ( optionTable.showCastBarsTargetOnly ) then
       return UnitIsUnit("target", self.unit)
     end
     return true
@@ -22,15 +22,15 @@ function CastBarMixin:ShouldShowCastBar(options)
 end
 
 
-function CastBarMixin:UpdateIsShown(options)
-  self.showCastBar = self:ShouldShowCastBar(options)
+function CastBarMixin:UpdateIsShown(optionTable)
+  self.showCastBar = self:ShouldShowCastBar(optionTable)
   if ( self.showCastBar and (self.isCasting or self.isChanneling) ) then
     self:Initialize()
   else
     self:Hide()
   end
-  self.CastBarTextBG:SetShown(options.showCastBarsSpellName)
-  self.CastBarText:SetShown(options.showCastBarsSpellName)
+  self.CastBarTextBG:SetShown(optionTable.showCastBarsSpellName)
+  self.CastBarText:SetShown(optionTable.showCastBarsSpellName)
 end
 
 
