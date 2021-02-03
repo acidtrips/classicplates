@@ -89,8 +89,7 @@ function ClassicPlates:NAME_PLATE_UNIT_ADDED(unit)
       frame.UnitFrame.WidgetContainer:SetParent(frame)
     end
   elseif ( not UnitIsUnit("player", unit) ) then
-    if ( frame.UnitFrame and not frame.UnitFrame.isHooked ) then
-      frame.UnitFrame.isHooked = true
+    if ( not frame.UnitFrame:GetScript("OnShow") ) then
       frame.UnitFrame:HookScript("OnShow", function(_self) _self:Hide() end)
       frame.UnitFrame:Hide()
     end
@@ -101,9 +100,6 @@ end
 
 function ClassicPlates:NAME_PLATE_UNIT_REMOVED(unit)
   local frame = GetNamePlateForUnit(unit)
-  if ( frame.UnitFrame ) then
-    frame.UnitFrame.isHooked = nil
-  end
   self:OnUnitRemoved(frame.NamePlate)
 end
 
